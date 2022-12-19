@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+    name: authentication-microservice-deployment
+    namespace: microservices
+    labels:
+        app: authentication
+
+spec:
+    selector:
+        matchLabels:
+            app: authentication
+
+    template:
+        metadata:
+            name: authentication-microservice
+            labels:
+                app: authentication
+        spec:
+            containers:
+                - name: authentication-microservice
+                  image: archismanmridha/twitter-clone-authentication-microservice
+                  imagePullPolicy: IfNotPresent
+                  resources:
+                    limits:
+                        cpu: 200m
+                        memory: 256Mi

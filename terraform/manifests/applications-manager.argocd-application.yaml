@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+
+metadata:
+    name: argocd-applications-manager
+    namespace: argocd
+
+spec:
+    project: default
+
+    source:
+        repoURL: https://github.com/Archisman-Mridha/twitter-clone
+        targetRevision: HEAD
+        path: kubernetes/argo/cd/applications
+
+    destination:
+        server: https://kubernetes.default.svc
+        namespace: argocd
+
+    syncPolicy:
+        automated:
+            prune: true
+            allowEmpty: true
+            selfHeal: true
