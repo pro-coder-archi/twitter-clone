@@ -1,4 +1,4 @@
-#* K3D
+#* k3d
 
 create-cluster:
 	k3d cluster create --config ./cluster.config.yaml
@@ -19,3 +19,15 @@ get-argocd-server-password:
 
 show-argocd-ui:
 	kubectl port-forward svc/argocd-server -n argocd 9080:443
+
+#* goLang Migrate and cockroachDB
+
+download-cockroachdb-cluster-cert:
+	curl --create-dirs -o ./cockroachdb.root.crt -O https://cockroachlabs.cloud/clusters/7d6f23bf-3d6c-421b-ac2f-5d16c988bea7/cert
+
+generate-migration-files:
+	migrate create -ext sql -dir ./migrations -seq $(sequence)
+
+apply-migrations:
+	chmod +x ./scripts/run-cockroachdb-migration.sh
+	bash ./scripts/run-cockroachdb-migration.sh $(operation) $(path)

@@ -1,3 +1,6 @@
 # Terraform
 .terraform
 terraform.tfstate
+
+# Credentials
+*.credentials.env
