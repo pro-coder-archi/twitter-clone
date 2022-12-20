@@ -4,3 +4,6 @@ terraform.tfstate
 
 # Credentials
 *.credentials.env
+
+# VSCode settings
+.vscode

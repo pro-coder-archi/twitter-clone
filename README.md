@@ -40,3 +40,11 @@ Making a battle tested Twitter clone based on Kubernetes and the CloudNative eco
     set -U fish_user_paths $HOME/go/bin $fish_user_paths
     set -U fish_user_paths /usr/local/go/bin $fish_user_paths
     ```
+
+- sqlc
+    ```bash
+    # gcc is required to use sqlc
+    sudo apt install gcc -y
+
+    go install github.com/kyleconroy/sqlc/cmd/sqlc@latest
+    ```
