@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package authentication;
+option go_package = "./authentication/proto";
+
+service Authentication {
+
+    rpc StartRegistration(StartRegistrationRequest) returns (StartRegistrationResponse) { }
+}
+
+message StartRegistrationRequest {
+
+    string email = 1;
+    string name = 2;
+}
+
+message StartRegistrationResponse {
+
+    optional string error = 1;
+}

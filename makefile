@@ -4,13 +4,13 @@ create-cluster:
 	k3d cluster create --config ./cluster.config.yaml
 
 start-cluster:
-	k3d cluster start cloudnative-tools-testing
+	k3d cluster start twitter-clone-cluster
 
 stop-cluster:
-	k3d cluster stop cloudnative-tools-testing
+	k3d cluster stop twitter-clone-cluster
 
 delete-cluster:
-	k3d cluster delete cloudnative-tools-testing
+	k3d cluster delete twitter-clone-cluster
 
 #* argoCD
 
