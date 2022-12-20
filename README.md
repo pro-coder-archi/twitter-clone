@@ -24,3 +24,19 @@ Making a battle tested Twitter clone based on Kubernetes and the CloudNative eco
     set -U fish_user_paths $HOME/go/bin $fish_user_paths
     set -U fish_user_paths /usr/local/go/bin $fish_user_paths
     ```
+
+- goLang Migrate -
+    ```bash
+    curl -s https://packagecloud.io/install/repositories/golang-migrate/migrate/script.deb.sh | sudo bash
+    sudo apt-get update
+
+    sudo apt-get install migrate
+    ```
+
+- Reflex -
+    ```bash
+    go install github.com/cespare/reflex@latest
+
+    set -U fish_user_paths $HOME/go/bin $fish_user_paths
+    set -U fish_user_paths /usr/local/go/bin $fish_user_paths
+    ```

@@ -26,7 +26,7 @@ func main( ) {
 	gRPCServer := grpc.NewServer( )
 	proto.RegisterAuthenticationServer(gRPCServer, &server.AuthenticationServer{ })
 
-	log.Println("🚀 starting gRPC server for authentication microservice")
+	log.Println("🚀 starting gRPC server for authentication microservice !")
 
 	gRPCServer.Serve(portListener)
 }

@@ -40,9 +40,7 @@ dev:
             enabled: true
         # make the following commands from my local machine available inside the dev container
         proxyCommands:
-            - command: devspace
             - command: kubectl
-            - command: helm
-            - gitCredentials: true
         # forward the following ports to be able access your application via localhost
-        ports: [ ]
+        ports:
+            - port: 4000:4000
