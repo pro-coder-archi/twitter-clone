@@ -1,11 +1,12 @@
 package com.twitterclone.theme
 
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import com.example.twitterclone.R
+import com.twitterclone.R
 
 private val montserratFontFamily= FontFamily(
 
@@ -30,84 +31,86 @@ class ThemeTypography(
         fontFamily = montserratFontFamily,
         fontWeight = FontWeight.Black,
         fontSize = 30.sp,
-        lineHeight = 1.3.sp
+        lineHeight = 39.sp,
+        color = Color.White
     ),
 
     val extraBoldHeading: TextStyle= TextStyle(
         fontFamily = montserratFontFamily,
         fontWeight = FontWeight.ExtraBold,
         fontSize = 25.sp,
-        lineHeight = 1.3.sp
+        lineHeight = 32.5.sp
     ),
 
     val regularSizedBoldText: TextStyle= TextStyle(
         fontFamily = montserratFontFamily,
         fontWeight = FontWeight.Bold,
         fontSize = 16.sp,
-        lineHeight = 1.4.sp
+        lineHeight = 22.4.sp
     ),
 
     val smallSizedBoldText: TextStyle= TextStyle(
         fontFamily = montserratFontFamily,
         fontWeight = FontWeight.Bold,
         fontSize = 15.sp,
-        lineHeight = 1.35.sp
+        lineHeight = 20.25.sp,
+        color = Color.White
     ),
 
     val regularSizedSemiBoldText: TextStyle= TextStyle(
         fontFamily = montserratFontFamily,
         fontWeight = FontWeight.SemiBold,
         fontSize = 15.sp,
-        lineHeight = 1.4.sp
+        lineHeight = 21.sp
     ),
 
     val smallSizedSemiBoldText: TextStyle= TextStyle(
         fontFamily = montserratFontFamily,
         fontWeight = FontWeight.SemiBold,
         fontSize = 14.sp,
-        lineHeight = 1.4.sp
+        lineHeight = 19.6.sp
     ),
 
     val regularSizedParagraphText: TextStyle= TextStyle(
         fontFamily = montserratFontFamily,
         fontWeight = FontWeight.Medium,
         fontSize = 16.sp,
-        lineHeight = 1.4.sp
+        lineHeight = 22.4.sp
     ),
 
     val smallSizedParagraphText: TextStyle= TextStyle(
         fontFamily = montserratFontFamily,
         fontWeight = FontWeight.Medium,
         fontSize = 14.sp,
-        lineHeight = 1.4.sp
+        lineHeight = 19.6.sp
     ),
 
     val boldButtonText: TextStyle= TextStyle(
         fontFamily = montserratFontFamily,
         fontWeight = FontWeight.Bold,
         fontSize = 14.sp,
-        lineHeight = 1.4.sp
+        lineHeight = 19.6.sp
     ),
 
     val smallSizedPlaceholderText: TextStyle= TextStyle(
         fontFamily = montserratFontFamily,
         fontWeight = FontWeight.Medium,
         fontSize = 13.sp,
-        lineHeight = 1.4.sp
+        lineHeight = 18.2.sp
     ),
 
     val largeSizedTweetText: TextStyle= TextStyle(
         fontFamily = graphikFontFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 20.sp,
-        lineHeight = 1.35.sp
+        lineHeight = 27.sp
     ),
 
     val regularSizedTweetText: TextStyle= TextStyle(
         fontFamily = graphikFontFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 15.sp,
-        lineHeight = 1.35.sp
-    ),
+        lineHeight = 20.25.sp
+    )
 
 )

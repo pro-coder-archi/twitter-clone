@@ -1,13 +1,12 @@
 package com.twitterclone.theme
 
-import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 
 private val primaryColor= Color(0xFF1D9BF0)
 private val backgroundColor= Color(0XFF000000)
 private val errorColor= Color(0xFFFF453A)
-private val textColor= Color(250, 250, 250, 50)
-private val lightBorderColor= Color(0, 0, 0, 20)
+private val textColor= Color(250, 250, 250, 75)
+private val lightBorderColor= Color(250, 250, 250, 20)
 
 class ThemeColors(
 

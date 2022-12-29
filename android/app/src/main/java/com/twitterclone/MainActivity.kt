@@ -3,6 +3,7 @@ package com.twitterclone
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import com.twitterclone.screens.registrationPrompt.RegistrationPromptScreenView
 import com.twitterclone.theme.AppTheme
 
 class MainActivity : ComponentActivity( ) {
@@ -10,7 +11,11 @@ class MainActivity : ComponentActivity( ) {
         super.onCreate(savedInstanceState)
 
         setContent {
+            AppTheme {
 
+                RegistrationPromptScreenView( )
+
+            }
         }
     }
 }
