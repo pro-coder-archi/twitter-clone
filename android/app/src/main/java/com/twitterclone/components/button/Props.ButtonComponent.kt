@@ -1,5 +1,6 @@
 package com.twitterclone.components.button
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material.ButtonColors
 import androidx.compose.material.ButtonDefaults
@@ -13,14 +14,15 @@ data class ButtonProps(
 
     val colors: ButtonColors,
     val modifier: Modifier,
-    val contentPadding: PaddingValues
+    val contentPadding: PaddingValues,
+    val border: BorderStroke?
 )
 
 @Composable
 fun getButtonPropsForVariant(variant: ButtonComponentVariants, isDisabled: Boolean, isOutlined: Boolean): ButtonProps {
 
     //* decide the button background and content color based on the variant is outlined or not */
-    val buttonColor= ButtonDefaults.buttonColors(
+    val buttonColor: ButtonColors= ButtonDefaults.buttonColors(
 
         backgroundColor =
             if(isOutlined) Color.Transparent
@@ -31,11 +33,18 @@ fun getButtonPropsForVariant(variant: ButtonComponentVariants, isDisabled: Boole
                 else AppTheme.colors.background
     )
 
+    //* if button is outlined then apply border */
+    val border: BorderStroke?=
+        if(isOutlined)
+            BorderStroke(width = 1.dp, color = AppTheme.colors.contrast)
+        else null
+
     return when(variant) {
 
         ButtonComponentVariants.WIDE ->
             ButtonProps(
                 colors = buttonColor,
+                border = border,
                 modifier = Modifier.buttonVariant(ButtonComponentVariants.WIDE, isDisabled),
                 contentPadding = PaddingValues(vertical = 12.5f.dp, horizontal = 15.dp)
             )
@@ -43,6 +52,7 @@ fun getButtonPropsForVariant(variant: ButtonComponentVariants, isDisabled: Boole
         ButtonComponentVariants.CHIP ->
             ButtonProps(
                 colors = buttonColor,
+                border = border,
                 modifier = Modifier.buttonVariant(ButtonComponentVariants.CHIP, isDisabled),
                 contentPadding = PaddingValues(vertical = 5.dp, horizontal = 15.dp)
             )
@@ -50,6 +60,7 @@ fun getButtonPropsForVariant(variant: ButtonComponentVariants, isDisabled: Boole
         else ->
             ButtonProps(
                 colors = buttonColor,
+                border = border,
                 modifier = Modifier.buttonVariant(ButtonComponentVariants.DEFAULT, isDisabled),
                 contentPadding = PaddingValues(vertical = 7.5f.dp, horizontal = 15.dp)
             )
