@@ -15,6 +15,7 @@ import com.twitterclone.R
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.unit.sp
 import com.twitterclone.components.button.ButtonComponentVariants
 import com.twitterclone.components.button.ButtonComponentView
 
@@ -50,7 +51,7 @@ fun RegistrationPromptScreenView( ) {
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth( ).padding(vertical= 10.dp),
+            modifier = Modifier.fillMaxWidth( ).padding(vertical= 5.dp),
             horizontalArrangement = Arrangement.Center
         ) {
             Divider(modifier = Modifier.width(100.dp).background(AppTheme.colors.text), thickness = 1.dp)
@@ -58,7 +59,7 @@ fun RegistrationPromptScreenView( ) {
             Text(
                 text = "or",
                 modifier = Modifier.padding(horizontal = 10.dp),
-                style = AppTheme.typography.smallSizedBoldText
+                style = AppTheme.typography.smallSizedBoldText.copy(fontSize = 14.sp, color = AppTheme.colors.text)
             )
 
             Divider(modifier = Modifier.width(100.dp).background(AppTheme.colors.text), thickness = 1.dp)
