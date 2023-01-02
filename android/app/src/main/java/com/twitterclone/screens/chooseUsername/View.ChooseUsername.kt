@@ -1,4 +1,4 @@
-package com.twitterclone.screens.uploadProfilePicture
+package com.twitterclone.screens.chooseUsername
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -10,17 +10,19 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.twitterclone.R
 import com.twitterclone.components.button.ButtonComponentView
+import com.twitterclone.components.formField.FormFieldComponentView
 import com.twitterclone.theme.AppTheme
 
 @Composable
-fun UploadProfilePictureView( ) {
+fun ChooseUsernameView( ) {
 
     Column(modifier = Modifier.fillMaxSize( )) {
 
         Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp)) {
+
             Row(
                 modifier= Modifier.fillMaxWidth( ),
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.Center
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.twitter_logo),
@@ -33,22 +35,20 @@ fun UploadProfilePictureView( ) {
 
             Spacer(modifier = Modifier.height(100.dp))
 
-            Text(text = "Pick a profile picture", style = AppTheme.typography.extraBoldHeading)
+            Text(text = "What should we call you ?", style = AppTheme.typography.extraBoldHeading)
 
             Spacer(modifier = Modifier.height(20.dp))
 
             Text(
-                text = "Have a favourite selfie ? Upload it now !",
+                text = "Your @username is unique. You can always change it later.",
                 style = AppTheme.typography.regularSizedParagraphText.copy(color = AppTheme.colors.text)
             )
 
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(17.5f.dp))
 
-            ButtonComponentView(
-                buttonText = "Upload from device",
-                clickHandler = { },
-                trailingDrawableResourceID = R.drawable.outline_cloud,
-                backgroundColor = AppTheme.colors.primary
+            FormFieldComponentView(
+                labelText = "Preferred username",
+                leadingIconResourceId = R.drawable.user_circle_light
             )
         }
 
@@ -66,7 +66,7 @@ fun UploadProfilePictureView( ) {
                 clickHandler = { },
                 isOutlined = true
             )
-
+            
             Spacer(modifier = Modifier.weight(1f))
 
             ButtonComponentView(
@@ -77,4 +77,5 @@ fun UploadProfilePictureView( ) {
             )
         }
     }
+
 }

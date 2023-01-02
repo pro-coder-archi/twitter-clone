@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material.Scaffold
+import com.twitterclone.screens.chooseUsername.ChooseUsernameView
 import com.twitterclone.screens.createAccount.CreateAccountScreenView
 import com.twitterclone.screens.enterRegistrationPassword.EnterRegistrationPasswordScreenView
 import com.twitterclone.screens.registrationPrompt.RegistrationPromptScreenView
@@ -18,7 +19,7 @@ class MainActivity : ComponentActivity( ) {
         setContent {
             AppTheme {
 
-                VerifyEmailForRegistrationView( )
+                UploadProfilePictureView( )
 
             }
         }
