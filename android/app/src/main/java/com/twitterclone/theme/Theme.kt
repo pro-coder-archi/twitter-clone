@@ -28,12 +28,9 @@ object AppTheme {
 
 @Composable
 fun AppTheme(content: @Composable ( ) -> Unit) {
-
     Scaffold(backgroundColor = AppTheme.colors.background) {
-        ProvideTextStyle(value = TextStyle(color = Color.White)) {
 
-            content( )
+        content( )
 
-        }
     }
 }

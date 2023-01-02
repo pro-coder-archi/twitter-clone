@@ -22,7 +22,7 @@ import com.twitterclone.components.button.ButtonComponentView
 @Composable
 fun RegistrationPromptScreenView( ) {
 
-    Column(modifier = Modifier.fillMaxSize( ).padding(16.dp)) {
+    Column(modifier = Modifier.fillMaxSize( ).padding(horizontal = 16.dp, vertical = 10.dp)) {
 
         Box(
             modifier = Modifier.fillMaxWidth( ).weight(1f),
@@ -30,7 +30,7 @@ fun RegistrationPromptScreenView( ) {
         ) {
             Image(
                 painter = painterResource(id = R.drawable.twitter_logo),
-                contentDescription = "Twitter logo"
+                contentDescription = ""
             )
         }
 

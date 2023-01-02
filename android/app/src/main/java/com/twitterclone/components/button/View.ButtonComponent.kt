@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.ButtonElevation
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -24,10 +23,11 @@ fun ButtonComponentView(
     trailingDrawableResourceID: Int?= null,
     variant: ButtonComponentVariants= ButtonComponentVariants.DEFAULT,
     isDisabled: Boolean= false,
-    isOutlined: Boolean= false
+    isOutlined: Boolean= false,
+    backgroundColor: Color?= null
 
 ) {
-    val buttonProps: ButtonProps= getButtonPropsForVariant(variant, isDisabled, isOutlined)
+    val buttonProps: ButtonProps= getButtonPropsForVariant(variant, isDisabled, isOutlined, backgroundColor)
 
     Button(
         onClick = clickHandler,
@@ -53,7 +53,6 @@ fun ButtonComponentView(
 
         Text(
             text = buttonText,
-            color = Color.Black,
             lineHeight = 130.sp,
             style = AppTheme.typography.boldButtonText
         )

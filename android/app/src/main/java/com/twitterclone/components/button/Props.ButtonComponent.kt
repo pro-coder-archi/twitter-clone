@@ -19,18 +19,19 @@ data class ButtonProps(
 )
 
 @Composable
-fun getButtonPropsForVariant(variant: ButtonComponentVariants, isDisabled: Boolean, isOutlined: Boolean): ButtonProps {
+fun getButtonPropsForVariant(variant: ButtonComponentVariants, isDisabled: Boolean, isOutlined: Boolean, backgroundColor: Color?): ButtonProps {
 
     //* decide the button background and content color based on the variant is outlined or not */
     val buttonColor: ButtonColors= ButtonDefaults.buttonColors(
 
-        backgroundColor =
+        backgroundColor = backgroundColor ?:
             if(isOutlined) Color.Transparent
                 else AppTheme.colors.contrast,
 
         contentColor =
-            if(isOutlined) AppTheme.colors.contrast
-                else AppTheme.colors.background
+            if (backgroundColor != null) Color.White
+            else if(isOutlined) AppTheme.colors.contrast
+            else AppTheme.colors.background
     )
 
     //* if button is outlined then apply border */
