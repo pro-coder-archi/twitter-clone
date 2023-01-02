@@ -2,9 +2,7 @@ package com.twitterclone.components.formField
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.OutlinedTextField
@@ -16,6 +14,8 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.twitterclone.R
@@ -31,12 +31,14 @@ fun getBackgroundColor(isError: Boolean): Color {
 fun FormFieldComponentView(
 
     labelText: String,
-    leadingIconResourceId: Int
+    leadingIconResourceId: Int,
+    isSensitive: Boolean= false
 
 ) {
     var currentValue: String by remember{ mutableStateOf("") }
 
     var isFocused: Boolean by remember{ mutableStateOf(false) }
+    var isTextVisible: Boolean by remember{ mutableStateOf(!isSensitive) }
 
     OutlinedTextField(
         value = currentValue,
@@ -53,13 +55,31 @@ fun FormFieldComponentView(
 
         trailingIcon = {
             if(currentValue != "" && isFocused)
-                Image(
-                    painter = painterResource(id = R.drawable.close),
-                    contentDescription = "",
-                    modifier = Modifier
-                        .height(20.dp)
-                        .clickable { currentValue= "" },
-                )
+                Row {
+
+                    Image(
+                        painter = painterResource(id = R.drawable.close),
+                        contentDescription = "",
+                        modifier = Modifier
+                            .height(20.dp)
+                            .clickable { currentValue= "" },
+                    )
+
+                    // for sensitive form field
+                    if(isSensitive) {
+                        Spacer(modifier = Modifier.width(10.dp))
+
+                        Image(
+                            painter = painterResource(id = if(isTextVisible) R.drawable.striked_eye else R.drawable.eye),
+                            contentDescription = "",
+                            modifier = Modifier
+                                .height(20.dp)
+                                .clickable { isTextVisible= !isTextVisible },
+                        )
+
+                        Spacer(modifier = Modifier.width(10.dp))
+                    }
+                }
         },
 
         label = {
@@ -79,6 +99,8 @@ fun FormFieldComponentView(
             .fillMaxWidth( )
             .onFocusChanged { isFocused= it.isFocused }
             .height(60.dp),
+
+        visualTransformation = if(isTextVisible) VisualTransformation.None else PasswordVisualTransformation( ),
 
         shape = RoundedCornerShape(15.dp),
         textStyle = AppTheme.typography.smallSizedSemiBoldText,
