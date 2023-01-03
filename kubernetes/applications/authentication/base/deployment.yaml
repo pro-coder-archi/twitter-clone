@@ -26,3 +26,6 @@ spec:
                     limits:
                         cpu: 200m
                         memory: 256Mi
+                  envFrom:
+                    - secretRef:
+                        name: authentication-microservice-secrets

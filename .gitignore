@@ -2,11 +2,12 @@
 .terraform
 terraform.tfstate
 
-# Credentials
+# Credentials and Kubernetes secrets
 *.credentials.env
+*.secret.yaml
 
 # VSCode settings
 .vscode
 
 # DevSpace
-/.devspace
+.devspace
