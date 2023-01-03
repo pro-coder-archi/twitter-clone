@@ -108,5 +108,4 @@ fun VerifyEmailForRegistrationView( ) {
             )
         }
     }
-
 }

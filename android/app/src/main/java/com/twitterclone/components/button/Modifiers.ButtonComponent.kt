@@ -1,10 +1,8 @@
 package com.twitterclone.components.button
 
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.unit.dp
 
 fun Modifier.buttonVariant(variant: ButtonComponentVariants, isDisabled: Boolean): Modifier {
 
