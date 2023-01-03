@@ -1,4 +1,4 @@
-#* k3d
+#* K3D
 
 create-cluster:
 	k3d cluster create --config ./cluster.config.yaml

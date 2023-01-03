@@ -2,8 +2,11 @@ FROM go:1.19-alpine AS builder
 
 WORKDIR /app
 
-#* copying the main and dependent go modules
+#* copying the main module
 COPY ./backend/microservices/authentication/* ./backend/microservices/authentication
+
+#* copying the library module containing shared code
+COPY ./backend/shared/* ./backend/shared
 
 #* creating a workspace file and registering the modules
 RUN go work init

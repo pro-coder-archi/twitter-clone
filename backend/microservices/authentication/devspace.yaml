@@ -31,10 +31,13 @@ dev:
         devImage: ghcr.io/loft-sh/devspace-containers/go:1.18-alpine
         # sync files between the local filesystem and the development container
         sync:
-            - path: ./
+            - path: ./:./backend/microservices/authentication
+            - path: ../../shared/:./backend/shared
+            - path: ../../../go.work:./go.work
+              file: true
         # open a terminal and use the following command to start it
         terminal:
-            command: ./devspace_start.sh
+            command: ./backend/microservices/authentication/devspace_start.sh
         # inject a lightweight SSH server into the container (so your IDE can connect to the remote dev env)
         ssh:
             enabled: true
@@ -43,4 +46,4 @@ dev:
             - command: kubectl
         # forward the following ports to be able access your application via localhost
         ports:
-            - port: 4000:4000
+            - port: 4001:4000
