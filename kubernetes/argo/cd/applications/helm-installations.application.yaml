@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+
+metadata:
+    name: helm-installations-application
+    namespace: argocd
+
+spec:
+    project: default
+
+    source:
+        repoURL: https://github.com/Archisman-Mridha/twitter-clone
+        targetRevision: HEAD
+        path: kubernetes/installations/helm
+
+    destination:
+        server: https://kubernetes.default.svc
+        namespace: argocd
+
+    syncPolicy:
+        automated:
+            prune: true
+            selfHeal: true
