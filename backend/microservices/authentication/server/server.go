@@ -3,6 +3,7 @@ package server
 import (
 	"context"
 
+	"authentication/handlers"
 	"authentication/proto"
 )
 
@@ -11,7 +12,8 @@ type AuthenticationServer struct {
 	proto.UnimplementedAuthenticationServer
 }
 
-func(server *AuthenticationServer) StartRegistration(ctx context.Context, startRegistrationRequest *proto.StartRegistrationRequest) (*proto.StartRegistrationResponse, error) {
+func(server *AuthenticationServer) StartRegistration(
+	ctx context.Context, startRegistrationRequest *proto.StartRegistrationRequest) (*proto.StartRegistrationResponse, error) {
 
-	return &proto.StartRegistrationResponse{ }, nil
+	return handlers.StartRegistrationHandler(startRegistrationRequest)
 }

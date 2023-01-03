@@ -1,0 +1,4 @@
+varsEncrypted: true
+lastContext:
+    namespace: default
+    context: k3d-twitter-clone-cluster
