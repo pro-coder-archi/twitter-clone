@@ -13,3 +13,4 @@ namespace:
 
 resources:
     - ../../base
+    - ./envs.sealed-secret.yaml

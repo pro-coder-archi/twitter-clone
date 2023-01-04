@@ -4,19 +4,15 @@ import (
 	"context"
 	"database/sql"
 	"log"
-	"os"
 
 	_ "github.com/lib/pq"
 )
 
-func CreateDbConnection(ctx context.Context) {
+func CreateCockroachDBConnection(ctx context.Context) *sql.DB {
 
-	uri, isEnvFound := os.LookupEnv("DATABASE_URL")
+	uri := GetEnv("COCKROACHDB_URL")
 
-	if(!isEnvFound) {
-		log.Fatal("❌ env DATABASE_URL not found") }
-
-	//* connecting to the database
+	//* connecting to the cockroachDB instance
 	dbConnection, error := sql.Open("postgres", uri)
 
 	if(error != nil) {
@@ -33,5 +29,7 @@ func CreateDbConnection(ctx context.Context) {
 
 		log.Fatalf(error.Error( )) }
 
-	log.Println("🔥 successfully connected to authentication database")
+	log.Println("🔥 successfully connected to cockroach database")
+
+	return dbConnection
 }

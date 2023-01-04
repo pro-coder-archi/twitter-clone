@@ -10,14 +10,14 @@ import (
 )
 
 const findRegisteredEmail = `-- name: FindRegisteredEmail :one
-SELECT email FROM authentication.users
-    WHERE users.email= @email
-    LIMIT 1
+SELECT email, password FROM authentication.users
+    WHERE users.email= ?
+        LIMIT 1
 `
 
-func (q *Queries) FindRegisteredEmail(ctx context.Context) (string, error) {
-	row := q.db.QueryRowContext(ctx, findRegisteredEmail)
-	var email string
-	err := row.Scan(&email)
-	return email, err
+func (q *Queries) FindRegisteredEmail(ctx context.Context, email string) (AuthenticationUser, error) {
+	row := q.db.QueryRowContext(ctx, findRegisteredEmail, email)
+	var i AuthenticationUser
+	err := row.Scan(&i.Email, &i.Password)
+	return i, err
 }
