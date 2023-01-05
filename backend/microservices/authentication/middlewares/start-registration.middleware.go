@@ -19,7 +19,7 @@ func StartRegistrationMiddleware(startRegistrationRequest *proto.StartRegistrati
 		return &invalidEmailError }
 
 	// name validation
-	if len(startRegistrationRequest.Name) < 4 || len(startRegistrationRequest.Name) > 50 {
+	if len(startRegistrationRequest.Name) < 3 || len(startRegistrationRequest.Name) > 50 {
 		return &invalidNameError }
 
 	//! check if email is not pre-registered using the authentication database
@@ -40,6 +40,6 @@ func StartRegistrationMiddleware(startRegistrationRequest *proto.StartRegistrati
 
 var (
 	invalidEmailError= "email is invalid"
-	invalidNameError= "name should be 4 to 50 characters long"
+	invalidNameError= "name should be 3 to 50 characters long"
 	duplicateEmailError= "email is pre-registered"
 )

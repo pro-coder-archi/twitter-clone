@@ -5,3 +5,8 @@ protoc-generate:
 
 serve:
 	nodemon --watch "./**/*.go" --signal SIGTERM --exec "go" run main.go
+
+generate-mocks:
+	mockgen -source=repository/querier.go \
+		-destination=mocks/repository.querier.mock.go -package=mocks \
+		Queries

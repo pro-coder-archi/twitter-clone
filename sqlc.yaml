@@ -8,3 +8,4 @@ sql:
         go:
             package: repository
             out: ./backend/microservices/authentication/repository
+            emit_interface: true
