@@ -1,8 +1,6 @@
 package global
 
 import (
-	"errors"
-
 	"github.com/go-redis/redis"
 
 	"authentication/repository"
@@ -16,4 +14,6 @@ type globalVariables struct {
 	RedisClient *redis.Client
 }
 
-var ServerError= errors.New("server error occured")
+var (
+	ServerError= "server error occured"
+)

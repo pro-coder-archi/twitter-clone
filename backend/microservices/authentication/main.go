@@ -16,11 +16,11 @@ func main( ) {
 	ctx, cancel := context.WithCancel(context.Background( ))
 	defer cancel( )
 
-	//* connecting to cockroachDB
+	//! connecting to cockroachDB
 	dbConnection := sharedUtils.CreateCockroachDBConnection(ctx)
 	global.GlobalVariables.Repository = repository.New(dbConnection)
 
-	//* connecting to redis
+	//! connecting to redis
 
 	redisClient := redis.NewClient(
 		&redis.Options{
@@ -40,6 +40,6 @@ func main( ) {
 
 	global.GlobalVariables.RedisClient= redisClient
 
-	//* starting the gRPC server
+	//! starting the gRPC server
 	sharedUtils.CreateGRPCServer( )
 }
