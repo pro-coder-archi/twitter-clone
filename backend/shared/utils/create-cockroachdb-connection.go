@@ -1,14 +1,13 @@
 package utils
 
 import (
-	"context"
 	"database/sql"
 	"log"
 
 	_ "github.com/lib/pq"
 )
 
-func CreateCockroachDBConnection(ctx context.Context) *sql.DB {
+func CreateCockroachDBConnection( ) *sql.DB {
 
 	uri := GetEnv("COCKROACHDB_URL")
 
@@ -19,8 +18,6 @@ func CreateCockroachDBConnection(ctx context.Context) *sql.DB {
 		log.Fatalf("❌ error connecting to cockroachDB instance : ")
 
 		log.Fatalf(error.Error( )) }
-
-	defer dbConnection.Close( )
 
 	error= dbConnection.Ping( )
 

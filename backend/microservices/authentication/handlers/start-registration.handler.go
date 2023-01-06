@@ -2,6 +2,8 @@ package handlers
 
 import (
 	"encoding/json"
+	"log"
+	"time"
 
 	"authentication/communications"
 	"authentication/global"
@@ -25,8 +27,10 @@ func StartRegistrationHandler(
 	if error != nil {
 		return &proto.StartRegistrationResponse{ Error: &global.ServerError }, nil }
 
-	error= global.GlobalVariables.RedisClient.Set(startRegistrationRequest.Email, temporaryUserDetails, 600).Err( )
+	error= global.GlobalVariables.RedisClient.Set(startRegistrationRequest.Email, temporaryUserDetails, 300 * time.Second).Err( )
 	if error != nil {
+		log.Println(error.Error( ))
+
 		return &proto.StartRegistrationResponse{ Error: &global.ServerError }, nil }
 
 	//! sending request to otp service to send OTP to the email for verification
@@ -34,5 +38,5 @@ func StartRegistrationHandler(
 	if error != nil {
 		return &proto.StartRegistrationResponse{ Error: &global.ServerError }, nil }
 
-	return &proto.StartRegistrationResponse{ }, nil
+	return nil, nil
 }

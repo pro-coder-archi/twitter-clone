@@ -80,7 +80,9 @@ func TestStartRegistrationMiddleware(t *testing.T) {
 	}
 
 	//! running the testcases
-	for _, testcase := range testcases {
+	for _, item := range testcases {
+		testcase := item
+
 		t.Run(
 			testcase.description, func(t *testing.T) {
 				t.Parallel( )

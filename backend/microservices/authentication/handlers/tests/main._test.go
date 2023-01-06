@@ -1,6 +1,7 @@
-package middleware_tests
+package handler_tests
 
 import (
+	sharedUtils "shared/utils"
 	"testing"
 
 	"github.com/golang/mock/gomock"
@@ -12,8 +13,13 @@ import (
 var mockQuerier *mocks.MockQuerier
 
 func TestMain(m *testing.M) {
+	var cleanup func( )
 
-	//* mocking cockroach database
+	//! mocking redis database
+	global.GlobalVariables.RedisClient, cleanup= sharedUtils.CreateRedisClient(true)
+	defer cleanup( )
+
+	//! mocking cockroach database
 
 	mockingController := gomock.NewController(&testing.T{ })
 	defer mockingController.Finish( )
@@ -22,6 +28,6 @@ func TestMain(m *testing.M) {
 
 	global.GlobalVariables.Repository= mockQuerier
 
-	//* running the tests
+	//! running the tests
 	m.Run( )
 }
