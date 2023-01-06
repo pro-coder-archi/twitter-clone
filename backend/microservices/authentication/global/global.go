@@ -10,7 +10,7 @@ var GlobalVariables= &globalVariables{ }
 
 type globalVariables struct {
 
-	Repository *repository.Queries
+	Repository repository.Querier
 	RedisClient *redis.Client
 }
 

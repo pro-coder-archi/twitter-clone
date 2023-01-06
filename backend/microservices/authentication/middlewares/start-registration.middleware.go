@@ -2,6 +2,7 @@ package middlewares
 
 import (
 	"context"
+	"database/sql"
 	"net/mail"
 
 	"authentication/global"
@@ -33,9 +34,9 @@ func StartRegistrationMiddleware(startRegistrationRequest *proto.StartRegistrati
 		return &duplicateEmailError }
 
 	// handling server or database error
-	if error != nil { return &global.ServerError }
+	if error == sql.ErrNoRows { return nil }
 
-	return nil
+	return &global.ServerError
 }
 
 var (
