@@ -6,7 +6,7 @@ import (
 	"net/mail"
 
 	"authentication/global"
-	"authentication/proto"
+	proto "authentication/proto/generated"
 )
 
 func StartRegistrationMiddleware(startRegistrationRequest *proto.StartRegistrationRequest) *string {

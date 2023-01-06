@@ -10,7 +10,7 @@ import (
 	"authentication/global"
 	"authentication/handlers"
 	"authentication/middlewares"
-	"authentication/proto"
+	proto "authentication/proto/generated"
 	"authentication/repository"
 )
 

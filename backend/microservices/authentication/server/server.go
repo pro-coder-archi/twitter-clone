@@ -1,7 +1,7 @@
 package server
 
 import (
-	"authentication/proto"
+	proto "authentication/proto/generated"
 )
 
 //* server implementation for gRPC service Authentication

@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"authentication/handlers"
-	"authentication/proto"
+	proto "authentication/proto/generated"
 )
 
 func(server *AuthenticationServer) StartRegistration(

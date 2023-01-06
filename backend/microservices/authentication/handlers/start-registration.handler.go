@@ -8,7 +8,7 @@ import (
 	"authentication/communications"
 	"authentication/global"
 	"authentication/middlewares"
-	"authentication/proto"
+	proto "authentication/proto/generated"
 )
 
 func StartRegistrationHandler(

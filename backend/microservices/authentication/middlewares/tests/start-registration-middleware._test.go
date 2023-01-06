@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 
 	"authentication/middlewares"
-	"authentication/proto"
+	proto "authentication/proto/generated"
 	"authentication/repository"
 )
 

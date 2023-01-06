@@ -1,7 +1,7 @@
 package utils
 
 import (
-	"authentication/proto"
+	proto "authentication/proto/generated"
 	"authentication/server"
 	"flag"
 	"fmt"
