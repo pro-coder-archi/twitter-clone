@@ -17,11 +17,11 @@ func StartRegistrationMiddleware(startRegistrationRequest *proto.StartRegistrati
 	_, error := mail.ParseAddress(startRegistrationRequest.Email)
 
 	if error != nil {
-		return &invalidEmailError }
+		return &InvalidEmailError }
 
 	// name validation
 	if len(startRegistrationRequest.Name) < 3 || len(startRegistrationRequest.Name) > 50 {
-		return &invalidNameError }
+		return &InvalidNameError }
 
 	//! check if email is not pre-registered using the authentication database
 
@@ -31,7 +31,7 @@ func StartRegistrationMiddleware(startRegistrationRequest *proto.StartRegistrati
 
 	// handling duplicate email error
 	if queryResult.Email == startRegistrationRequest.Email {
-		return &duplicateEmailError }
+		return &DuplicateEmailError }
 
 	// handling server or database error
 	if error == sql.ErrNoRows { return nil }
@@ -40,7 +40,7 @@ func StartRegistrationMiddleware(startRegistrationRequest *proto.StartRegistrati
 }
 
 var (
-	invalidEmailError= "email is invalid"
-	invalidNameError= "name should be 3 to 50 characters long"
-	duplicateEmailError= "email is pre-registered"
+	InvalidEmailError= "email is invalid"
+	InvalidNameError= "name should be 3 to 50 characters long"
+	DuplicateEmailError= "email is pre-registered"
 )

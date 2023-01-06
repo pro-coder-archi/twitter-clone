@@ -1,29 +1,19 @@
-package middlewares
+package middleware_tests
 
 import (
 	"context"
 	"database/sql"
 	"testing"
 
-	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
 
-	"authentication/global"
-	"authentication/mocks"
+	"authentication/middlewares"
 	"authentication/proto"
 	"authentication/repository"
 )
 
 func TestStartRegistrationMiddleware(t *testing.T) {
-
-	//! mocking database call
-
-	mockingController := gomock.NewController(t)
-	defer mockingController.Finish( )
-
-	var mockQuerier *mocks.MockQuerier= mocks.NewMockQuerier(mockingController)
-
-	global.GlobalVariables.Repository= mockQuerier
+	t.Parallel( )
 
 	//! preparing the testcases
 
@@ -41,7 +31,7 @@ func TestStartRegistrationMiddleware(t *testing.T) {
 			input: &proto.StartRegistrationRequest{
 				Email: "invalid",
 			},
-			expectedOutput: &invalidEmailError,
+			expectedOutput: &middlewares.InvalidEmailError,
 		},
 		{
 			description: "🧪 invalid name should be detected",
@@ -49,7 +39,7 @@ func TestStartRegistrationMiddleware(t *testing.T) {
 				Email: "archismanmridha12345@gmail.com",
 				Name: "x",
 			},
-			expectedOutput: &invalidNameError,
+			expectedOutput: &middlewares.InvalidNameError,
 		},
 		{
 			description: "🧪 duplicate email should be detected",
@@ -57,7 +47,7 @@ func TestStartRegistrationMiddleware(t *testing.T) {
 				Email: "archismanmridha12345@gmail.com",
 				Name: "archi",
 			},
-			expectedOutput: &duplicateEmailError,
+			expectedOutput: &middlewares.DuplicateEmailError,
 
 			buildStub: func( ) {
 				mockQuerier.
@@ -93,11 +83,12 @@ func TestStartRegistrationMiddleware(t *testing.T) {
 	for _, testcase := range testcases {
 		t.Run(
 			testcase.description, func(t *testing.T) {
+				t.Parallel( )
 
 				if testcase.buildStub != nil {
 					testcase.buildStub( ) }
 
-				output := StartRegistrationMiddleware(testcase.input)
+				output := middlewares.StartRegistrationMiddleware(testcase.input)
 
 				if testcase.expectedOutput == nil {
 					assert.Equal(t, testcase.expectedOutput, output) } else {
