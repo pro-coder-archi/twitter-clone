@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package authentication;
+option go_package = "./authentication/proto";
+
+import "start-registration.proto";
+import "set-email-verified.proto";
+
+service Authentication {
+
+    rpc StartRegistration(StartRegistrationRequest) returns (StartRegistrationResponse) { }
+    rpc SetEmailVerified(SetEmailVerifiedRequest) returns (SetEmailVerifiedResponse) { }
+}

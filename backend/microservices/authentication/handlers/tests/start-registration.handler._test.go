@@ -3,8 +3,10 @@ package handler_tests
 import (
 	"context"
 	"database/sql"
+	"encoding/json"
 	"testing"
 
+	"github.com/go-faker/faker/v4"
 	"github.com/stretchr/testify/assert"
 
 	"authentication/global"
@@ -12,10 +14,17 @@ import (
 	"authentication/middlewares"
 	proto "authentication/proto/generated"
 	"authentication/repository"
+	"authentication/types"
 )
 
 func TestStartRegistrationHandler(t *testing.T) {
 	t.Parallel( )
+
+	//! setup
+
+	var (
+		randomEmail= faker.Email( )
+	)
 
 	//! defining testcases
 
@@ -25,7 +34,7 @@ func TestStartRegistrationHandler(t *testing.T) {
 		input *proto.StartRegistrationRequest
 		expectedOutput *proto.StartRegistrationResponse
 		buildStub func( )
-		testcaseContinuation func(input *proto.StartRegistrationRequest)
+		continuation func(input *proto.StartRegistrationRequest)
 	}
 
 	testcases := []TestCase{
@@ -40,7 +49,7 @@ func TestStartRegistrationHandler(t *testing.T) {
 		{
 			description: "🧪 valid request should pass through the middleware and details should be saved in redis",
 			input: &proto.StartRegistrationRequest{
-				Email: "archismanmridha12345@gmail.com",
+				Email: randomEmail,
 				Name: "archi",
 			},
 			expectedOutput: nil,
@@ -48,15 +57,24 @@ func TestStartRegistrationHandler(t *testing.T) {
 			buildStub: func( ) {
 				mockQuerier.
 					EXPECT( ).
-					FindRegisteredEmail(context.Background( ), "archismanmridha12345@gmail.com").
+					FindRegisteredEmail(context.Background( ), randomEmail).
 					Return(repository.AuthenticationUser{ }, sql.ErrNoRows)
 			},
 
-			testcaseContinuation: func(input *proto.StartRegistrationRequest) {
+			continuation: func(input *proto.StartRegistrationRequest) {
 				value, error := global.GlobalVariables.RedisClient.Get(input.Email).Result( )
 
 				assert.Nil(t, error)
 				assert.NotEmpty(t, value)
+
+				var temporaryUserDetails types.TemporaryUserDetailsRedisRecord
+
+				error= json.Unmarshal([]byte(value), &temporaryUserDetails)
+				assert.Nil(t, error)
+
+				assert.False(t, temporaryUserDetails.IsVerified)
+				assert.Equal(t, input.Email, temporaryUserDetails.Email)
+				assert.Equal(t, input.Name, temporaryUserDetails.Name)
 			},
 		},
 	}
@@ -80,8 +98,8 @@ func TestStartRegistrationHandler(t *testing.T) {
 
 				assert.Equal(t, *output.Error, *testcase.expectedOutput.Error) }
 
-				if testcase.testcaseContinuation != nil {
-					testcase.testcaseContinuation(testcase.input) }
+				if testcase.continuation != nil {
+					testcase.continuation(testcase.input) }
 			},
 		)
 	}

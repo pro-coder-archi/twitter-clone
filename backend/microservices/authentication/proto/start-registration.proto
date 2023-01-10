@@ -3,11 +3,6 @@ syntax = "proto3";
 package authentication;
 option go_package = "./authentication/proto";
 
-service Authentication {
-
-    rpc StartRegistration(StartRegistrationRequest) returns (StartRegistrationResponse) { }
-}
-
 message StartRegistrationRequest {
 
     string email = 1;

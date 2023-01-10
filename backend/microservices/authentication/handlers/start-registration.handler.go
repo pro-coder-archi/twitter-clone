@@ -9,6 +9,7 @@ import (
 	"authentication/global"
 	"authentication/middlewares"
 	proto "authentication/proto/generated"
+	"authentication/types"
 )
 
 func StartRegistrationHandler(
@@ -23,7 +24,15 @@ func StartRegistrationHandler(
 
 	//! saving the details temporarily in redis
 
-	temporaryUserDetails, error := json.Marshal(startRegistrationRequest)
+	temporaryUserDetails, error := json.Marshal(
+		types.TemporaryUserDetailsRedisRecord {
+			IsVerified: false,
+
+			Email: startRegistrationRequest.Email,
+			Name: startRegistrationRequest.Name,
+		},
+	)
+
 	if error != nil {
 		return &proto.StartRegistrationResponse{ Error: &global.ServerError }, nil }
 
