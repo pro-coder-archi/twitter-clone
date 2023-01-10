@@ -11,7 +11,7 @@ import (
 
 func StartRegistrationMiddleware(startRegistrationRequest *proto.StartRegistrationRequest) *string {
 
-	//! input validation
+	//! basic validations
 
 	// email address validation
 	_, error := mail.ParseAddress(startRegistrationRequest.Email)

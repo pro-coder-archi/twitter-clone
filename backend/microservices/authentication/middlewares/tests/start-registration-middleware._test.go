@@ -50,6 +50,8 @@ func TestStartRegistrationMiddleware(t *testing.T) {
 			expectedOutput: &middlewares.DuplicateEmailError,
 
 			buildStub: func( ) {
+
+				// mocking that the email address is pre-registered
 				mockQuerier.
 					EXPECT( ).
 					FindRegisteredEmail(context.Background( ), "archismanmridha12345@gmail.com").
@@ -70,6 +72,7 @@ func TestStartRegistrationMiddleware(t *testing.T) {
 			},
 			expectedOutput: nil,
 
+			// mocking that the email address is not pre-registered
 			buildStub: func( ) {
 				mockQuerier.
 					EXPECT( ).

@@ -6,13 +6,13 @@ import (
 	"authentication/repository"
 )
 
-var GlobalVariables= &globalVariables{ }
-
 type globalVariables struct {
 
 	Repository repository.Querier
 	RedisClient *redis.Client
 }
+
+var GlobalVariables= &globalVariables{ }
 
 var (
 	ServerError= "server error occured"
