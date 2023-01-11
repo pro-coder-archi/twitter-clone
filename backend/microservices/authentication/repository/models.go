@@ -6,7 +6,8 @@ package repository
 
 import ()
 
-type AuthenticationUser struct {
+type User struct {
+	ID       int32
 	Email    string
 	Password string
 }

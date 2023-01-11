@@ -18,13 +18,10 @@ import (
 )
 
 func TestStartRegistrationHandler(t *testing.T) {
-	t.Parallel( )
 
 	//! setup
 
-	var (
-		randomEmail= faker.Email( )
-	)
+	var randomEmail= faker.Email( )
 
 	//! defining testcases
 
@@ -58,7 +55,7 @@ func TestStartRegistrationHandler(t *testing.T) {
 				mockQuerier.
 					EXPECT( ).
 					FindRegisteredEmail(context.Background( ), randomEmail).
-					Return(repository.AuthenticationUser{ }, sql.ErrNoRows)
+					Return(repository.User{ }, sql.ErrNoRows)
 			},
 
 			continuation: func(input *proto.StartRegistrationRequest) {
@@ -85,7 +82,6 @@ func TestStartRegistrationHandler(t *testing.T) {
 
 		t.Run(
 			testcase.description, func(t *testing.T) {
-				t.Parallel( )
 
 				if testcase.buildStub != nil {
 					testcase.buildStub( ) }

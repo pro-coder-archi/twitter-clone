@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package authentication;
+option go_package = "./authentication/proto";
+
+message RegisterRequest {
+
+    /*
+        ideally when the user verifies him/her by sending the correct otp to the otp service, in response an encrypted secret key
+        should be sent back.
+
+        while sending this request, the user will include the encrypted secret key thus confirming that its not any outsider
+        tapping into the communication.
+    */
+
+    string email = 1;
+    string password= 2;
+}
+
+message RegisterResponse { }

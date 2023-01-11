@@ -8,7 +8,4 @@ message SetEmailVerifiedRequest {
     string email = 1;
 }
 
-message SetEmailVerifiedResponse {
-
-    string error= 1;
-}
+message SetEmailVerifiedResponse { }

@@ -18,3 +18,9 @@ func(server *AuthenticationServer) SetEmailVerified(
 
 	return handlers.SetEmailVerifiedHandler(setEmailVerifiedRequest)
 }
+
+func(server *AuthenticationServer) Register(
+	ctx context.Context, registerRequest *proto.RegisterRequest) (*proto.RegisterResponse, error) {
+
+	return handlers.RegisterHandler(registerRequest)
+}

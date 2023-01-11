@@ -1,9 +1,9 @@
 version: "2"
 
 sql:
-    - engine: mysql
+    - engine: postgresql
       queries: ./backend/microservices/authentication/sql/queries.sql
-      schema: ./backend/microservices/authentication/sql/migrations
+      schema: ./backend/microservices/authentication/sql/schema.sql
       gen:
         go:
             package: repository

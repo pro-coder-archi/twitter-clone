@@ -3,24 +3,23 @@ package handlers
 import (
 	"encoding/json"
 	"log"
+	"shared/communications"
 
 	"authentication/global"
 	proto "authentication/proto/generated"
 	"authentication/types"
 )
 
-func SetEmailVerifiedHandler(
-	setEmailVerifiedRequest *proto.SetEmailVerifiedRequest) (*proto.SetEmailVerifiedResponse, error) {
+func SetEmailVerifiedHandler(setEmailVerifiedRequest *proto.SetEmailVerifiedRequest) (*proto.SetEmailVerifiedResponse, error) {
+	var response *proto.SetEmailVerifiedResponse= nil
 
 	//! fetch the record from redis
 	value, error := global.GlobalVariables.RedisClient.Get(setEmailVerifiedRequest.Email).Result( )
 	if error != nil {
 		log.Println(error.Error( ))
 
-		// TODO: handle error
-		log.Println("⚠️ TODO: handle error when redis record not found for a user during the registration process")
-
-		return nil, nil }
+		communications.ReportError(error)
+		return response, nil }
 
 	//! unmarshalling and update the record
 
@@ -30,10 +29,8 @@ func SetEmailVerifiedHandler(
 	if error != nil {
 		log.Println(error.Error( ))
 
-		// TODO: handle error
-		log.Println("⚠️ TODO: handle redis record unmarshalling error")
-
-		return nil, nil }
+		communications.ReportError(error)
+		return response, nil }
 
 	temporaryUserDetails.IsVerified= true
 
@@ -42,10 +39,8 @@ func SetEmailVerifiedHandler(
 	if error != nil {
 		log.Println(error.Error( ))
 
-		// TODO: handle error
-		log.Println("⚠️ TODO: handle redis record update error")
+		communications.ReportError(error)
+		return response, nil }
 
-		return nil, nil }
-
-	return nil, nil
+	return response, nil
 }

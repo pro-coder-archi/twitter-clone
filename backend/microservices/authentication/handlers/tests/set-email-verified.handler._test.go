@@ -3,7 +3,6 @@ package handler_tests
 import (
 	"encoding/json"
 	"testing"
-	"time"
 
 	"github.com/go-faker/faker/v4"
 	"github.com/stretchr/testify/assert"
@@ -15,26 +14,12 @@ import (
 )
 
 func TestSetEmailVerifiedHandler(t *testing.T) {
-	t.Parallel( )
 
 	//! pre-requisities
 
-	var (
-		randomEmail= faker.Email( )
-	)
+	var randomEmail= faker.Email( )
 
-	temporaryUserDetails, error := json.Marshal(
-		types.TemporaryUserDetailsRedisRecord {
-			IsVerified: false,
-
-			Email: randomEmail,
-			Name: "archi",
-		},
-	)
-	assert.Nil(t, error)
-
-	error= global.GlobalVariables.RedisClient.Set(randomEmail, temporaryUserDetails, 300 * time.Second).Err( )
-	assert.Nil(t, error)
+	CreateTemporaryUserDetailsRedisRecord(t, randomEmail)
 
 	//! defining testcases
 
@@ -76,7 +61,6 @@ func TestSetEmailVerifiedHandler(t *testing.T) {
 
 		t.Run(
 			testcase.description, func(t *testing.T) {
-				t.Parallel( )
 
 				output, error := handlers.SetEmailVerifiedHandler(testcase.input)
 				assert.Nil(t, error)

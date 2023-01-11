@@ -13,7 +13,6 @@ import (
 )
 
 func TestStartRegistrationMiddleware(t *testing.T) {
-	t.Parallel( )
 
 	//! preparing the testcases
 
@@ -56,7 +55,7 @@ func TestStartRegistrationMiddleware(t *testing.T) {
 					EXPECT( ).
 					FindRegisteredEmail(context.Background( ), "archismanmridha12345@gmail.com").
 					Return(
-						repository.AuthenticationUser{
+						repository.CreateUserParams{
 							Email: "archismanmridha12345@gmail.com",
 							Password: "password",
 
@@ -77,7 +76,7 @@ func TestStartRegistrationMiddleware(t *testing.T) {
 				mockQuerier.
 					EXPECT( ).
 					FindRegisteredEmail(context.Background( ), "archismanmridha12345@gmail.com").
-					Return(repository.AuthenticationUser{ }, sql.ErrNoRows)
+					Return(repository.CreateUserParams{ }, sql.ErrNoRows)
 			},
 		},
 	}
@@ -88,7 +87,6 @@ func TestStartRegistrationMiddleware(t *testing.T) {
 
 		t.Run(
 			testcase.description, func(t *testing.T) {
-				t.Parallel( )
 
 				if testcase.buildStub != nil {
 					testcase.buildStub( ) }

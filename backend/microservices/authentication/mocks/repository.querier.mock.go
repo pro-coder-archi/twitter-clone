@@ -36,11 +36,25 @@ func (m *MockQuerier) EXPECT() *MockQuerierMockRecorder {
 	return m.recorder
 }
 
+// CreateUser mocks base method.
+func (m *MockQuerier) CreateUser(ctx context.Context, arg repository.CreateUserParams) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateUser", ctx, arg)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// CreateUser indicates an expected call of CreateUser.
+func (mr *MockQuerierMockRecorder) CreateUser(ctx, arg interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateUser", reflect.TypeOf((*MockQuerier)(nil).CreateUser), ctx, arg)
+}
+
 // FindRegisteredEmail mocks base method.
-func (m *MockQuerier) FindRegisteredEmail(ctx context.Context, email string) (repository.AuthenticationUser, error) {
+func (m *MockQuerier) FindRegisteredEmail(ctx context.Context, email string) (repository.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FindRegisteredEmail", ctx, email)
-	ret0, _ := ret[0].(repository.AuthenticationUser)
+	ret0, _ := ret[0].(repository.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }

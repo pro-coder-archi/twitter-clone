@@ -24,6 +24,7 @@ const _ = grpc.SupportPackageIsVersion7
 type AuthenticationClient interface {
 	StartRegistration(ctx context.Context, in *StartRegistrationRequest, opts ...grpc.CallOption) (*StartRegistrationResponse, error)
 	SetEmailVerified(ctx context.Context, in *SetEmailVerifiedRequest, opts ...grpc.CallOption) (*SetEmailVerifiedResponse, error)
+	Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*RegisterResponse, error)
 }
 
 type authenticationClient struct {
@@ -52,12 +53,22 @@ func (c *authenticationClient) SetEmailVerified(ctx context.Context, in *SetEmai
 	return out, nil
 }
 
+func (c *authenticationClient) Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*RegisterResponse, error) {
+	out := new(RegisterResponse)
+	err := c.cc.Invoke(ctx, "/authentication.Authentication/Register", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AuthenticationServer is the server API for Authentication service.
 // All implementations must embed UnimplementedAuthenticationServer
 // for forward compatibility
 type AuthenticationServer interface {
 	StartRegistration(context.Context, *StartRegistrationRequest) (*StartRegistrationResponse, error)
 	SetEmailVerified(context.Context, *SetEmailVerifiedRequest) (*SetEmailVerifiedResponse, error)
+	Register(context.Context, *RegisterRequest) (*RegisterResponse, error)
 	mustEmbedUnimplementedAuthenticationServer()
 }
 
@@ -70,6 +81,9 @@ func (UnimplementedAuthenticationServer) StartRegistration(context.Context, *Sta
 }
 func (UnimplementedAuthenticationServer) SetEmailVerified(context.Context, *SetEmailVerifiedRequest) (*SetEmailVerifiedResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SetEmailVerified not implemented")
+}
+func (UnimplementedAuthenticationServer) Register(context.Context, *RegisterRequest) (*RegisterResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Register not implemented")
 }
 func (UnimplementedAuthenticationServer) mustEmbedUnimplementedAuthenticationServer() {}
 
@@ -120,6 +134,24 @@ func _Authentication_SetEmailVerified_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Authentication_Register_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RegisterRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthenticationServer).Register(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/authentication.Authentication/Register",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthenticationServer).Register(ctx, req.(*RegisterRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Authentication_ServiceDesc is the grpc.ServiceDesc for Authentication service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -134,6 +166,10 @@ var Authentication_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SetEmailVerified",
 			Handler:    _Authentication_SetEmailVerified_Handler,
+		},
+		{
+			MethodName: "Register",
+			Handler:    _Authentication_Register_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -1,4 +1,9 @@
 -- name: FindRegisteredEmail :one
-SELECT * FROM authentication.users
-    WHERE users.email= ?
+SELECT * FROM users
+    WHERE users.email= @email
         LIMIT 1;
+
+-- name: CreateUser :exec
+INSERT INTO users
+    (email, password)
+        VALUES (@email, @password);
