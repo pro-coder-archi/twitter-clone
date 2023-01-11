@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	sharedUtils "shared/utils"
 
-	"authentication/global"
+	"authentication/globals"
 	proto "authentication/proto/generated"
 	"authentication/types"
 )
@@ -18,7 +18,7 @@ func SetEmailVerifiedHandler(setEmailVerifiedRequest *proto.SetEmailVerifiedRequ
 	)
 
 	//! fetch the record from redis
-	value, error := global.GlobalVariables.RedisClient.Get(setEmailVerifiedRequest.Email).Result( )
+	value, error := globals.Variables.RedisClient.Get(setEmailVerifiedRequest.Email).Result( )
 	if error != nil {
 		sharedUtils.Log(sharedUtils.LogDetails{
 
@@ -45,7 +45,7 @@ func SetEmailVerifiedHandler(setEmailVerifiedRequest *proto.SetEmailVerifiedRequ
 	temporaryUserDetails.IsVerified= true
 
 	//! updating the record in redis
-	error= global.GlobalVariables.RedisClient.Set(setEmailVerifiedRequest.Email, temporaryUserDetails, -1).Err( )
+	error= globals.Variables.RedisClient.Set(setEmailVerifiedRequest.Email, temporaryUserDetails, -1).Err( )
 	if error != nil {
 		sharedUtils.Log(sharedUtils.LogDetails{
 

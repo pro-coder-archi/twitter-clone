@@ -7,7 +7,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"authentication/global"
+	"authentication/globals"
 	"authentication/types"
 )
 
@@ -23,6 +23,6 @@ func CreateTemporaryUserDetailsRedisRecord(t *testing.T, email string) {
 	)
 	assert.Nil(t, error)
 
-	error= global.GlobalVariables.RedisClient.Set(email, temporaryUserDetails, 300 * time.Second).Err( )
+	error= globals.Variables.RedisClient.Set(email, temporaryUserDetails, 300 * time.Second).Err( )
 	assert.Nil(t, error)
 }

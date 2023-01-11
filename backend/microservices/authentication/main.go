@@ -5,7 +5,7 @@ import (
 
 	"google.golang.org/grpc"
 
-	"authentication/global"
+	"authentication/globals"
 	proto "authentication/proto/generated"
 	"authentication/repository"
 	"authentication/server"
@@ -18,11 +18,11 @@ func main( ) {
 	dbConnection := sharedUtils.CreateCockroachDBConnection( )
 	defer dbConnection.Close( )
 
-	global.GlobalVariables.Repository = repository.New(dbConnection)
+	globals.Variables.Repository = repository.New(dbConnection)
 
 	//! connecting to redis
 
-	global.GlobalVariables.RedisClient, cleanup= sharedUtils.CreateRedisClient(false)
+	globals.Variables.RedisClient, cleanup= sharedUtils.CreateRedisClient(false)
 	defer cleanup( )
 
 	//! starting the gRPC server

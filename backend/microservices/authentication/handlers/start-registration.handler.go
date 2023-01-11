@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"authentication/communications"
-	"authentication/global"
+	"authentication/globals"
 	"authentication/middlewares"
 	proto "authentication/proto/generated"
 	"authentication/types"
@@ -39,7 +39,7 @@ func StartRegistrationHandler(
 	if error != nil {
 		return &proto.StartRegistrationResponse{ Error: &sharedErrors.ServerError }, nil }
 
-	error= global.GlobalVariables.RedisClient.Set(startRegistrationRequest.Email, temporaryUserDetails, 600 * time.Second).Err( )
+	error= globals.Variables.RedisClient.Set(startRegistrationRequest.Email, temporaryUserDetails, 600 * time.Second).Err( )
 	if error != nil {
 		sharedUtils.Log(sharedUtils.LogDetails{
 

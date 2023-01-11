@@ -7,7 +7,7 @@ import (
 	sharedUtils "shared/utils"
 
 	"authentication/communications"
-	"authentication/global"
+	"authentication/globals"
 	proto "authentication/proto/generated"
 	"authentication/repository"
 	"authentication/types"
@@ -23,7 +23,7 @@ func RegisterHandler(registerRequest *proto.RegisterRequest) (*proto.RegisterRes
 
 	//! fetching temporary user details from redis
 
-	value, error := global.GlobalVariables.RedisClient.Get(registerRequest.Email).Result( )
+	value, error := globals.Variables.RedisClient.Get(registerRequest.Email).Result( )
 	if error != nil {
 		sharedUtils.Log(sharedUtils.LogDetails{
 
@@ -46,7 +46,7 @@ func RegisterHandler(registerRequest *proto.RegisterRequest) (*proto.RegisterRes
 		return &proto.RegisterResponse{ Error: &sharedErrors.ServerError }, nil }
 
 	//! evicting the record from redis
-	_, error= global.GlobalVariables.RedisClient.Del(registerRequest.Email).Result( )
+	_, error= globals.Variables.RedisClient.Del(registerRequest.Email).Result( )
 	if error != nil {
 		sharedUtils.Log(sharedUtils.LogDetails{
 
@@ -56,7 +56,7 @@ func RegisterHandler(registerRequest *proto.RegisterRequest) (*proto.RegisterRes
 
 	//! saving the user details permanently in cockroachDB
 
-	error= global.GlobalVariables.Repository.CreateUser(
+	error= globals.Variables.Repository.CreateUser(
 		context.Background( ), repository.CreateUserParams{
 
 			Email: registerRequest.Email,

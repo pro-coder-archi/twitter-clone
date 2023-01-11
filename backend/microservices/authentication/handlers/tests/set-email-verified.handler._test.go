@@ -7,7 +7,7 @@ import (
 	"github.com/go-faker/faker/v4"
 	"github.com/stretchr/testify/assert"
 
-	"authentication/global"
+	"authentication/globals"
 	"authentication/handlers"
 	proto "authentication/proto/generated"
 	"authentication/types"
@@ -39,7 +39,7 @@ func TestSetEmailVerifiedHandler(t *testing.T) {
 			},
 			expectedOutput: nil,
 			continuation: func(input *proto.SetEmailVerifiedRequest) {
-				value, error := global.GlobalVariables.RedisClient.Get(input.Email).Result( )
+				value, error := globals.Variables.RedisClient.Get(input.Email).Result( )
 
 				assert.Nil(t, error)
 				assert.NotEmpty(t, value)

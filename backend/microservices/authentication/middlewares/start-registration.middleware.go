@@ -6,7 +6,7 @@ import (
 	"net/mail"
 	sharedErrors "shared/errors"
 
-	"authentication/global"
+	"authentication/globals"
 	proto "authentication/proto/generated"
 )
 
@@ -24,7 +24,7 @@ func StartRegistrationMiddleware(startRegistrationRequest *proto.StartRegistrati
 
 	//! check if email is not pre-registered using the authentication database
 
-	queryResult, error := global.GlobalVariables.Repository.FindRegisteredEmail(
+	queryResult, error := globals.Variables.Repository.FindRegisteredEmail(
 		context.Background( ), startRegistrationRequest.Email,
 	)
 

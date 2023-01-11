@@ -6,7 +6,7 @@ import (
 	sharedErrors "shared/errors"
 	sharedUtils "shared/utils"
 
-	"authentication/global"
+	"authentication/globals"
 	proto "authentication/proto/generated"
 )
 
@@ -14,7 +14,7 @@ func SigninHandler(registerRequest *proto.SigninRequest) (*proto.SigninResponse,
 
 	//! search user from authentication database
 
-	password, error := global.GlobalVariables.Repository.GetPasswordForEmail(context.Background( ), registerRequest.Email)
+	password, error := globals.Variables.Repository.GetPasswordForEmail(context.Background( ), registerRequest.Email)
 
 	if error == sql.ErrNoRows {
 		return &proto.SigninResponse{ Error: &UserNotFoundError }, nil }

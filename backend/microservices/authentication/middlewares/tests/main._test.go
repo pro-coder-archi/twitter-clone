@@ -5,7 +5,7 @@ import (
 
 	"github.com/golang/mock/gomock"
 
-	"authentication/global"
+	"authentication/globals"
 	"authentication/mocks"
 )
 
@@ -20,7 +20,7 @@ func TestMain(m *testing.M) {
 
 	mockQuerier= mocks.NewMockQuerier(mockingController)
 
-	global.GlobalVariables.Repository= mockQuerier
+	globals.Variables.Repository= mockQuerier
 
 	//* running the tests
 	m.Run( )

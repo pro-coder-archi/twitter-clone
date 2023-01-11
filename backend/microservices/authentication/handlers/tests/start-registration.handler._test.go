@@ -9,7 +9,7 @@ import (
 	"github.com/go-faker/faker/v4"
 	"github.com/stretchr/testify/assert"
 
-	"authentication/global"
+	"authentication/globals"
 	"authentication/handlers"
 	"authentication/middlewares"
 	proto "authentication/proto/generated"
@@ -59,7 +59,7 @@ func TestStartRegistrationHandler(t *testing.T) {
 			},
 
 			continuation: func(input *proto.StartRegistrationRequest) {
-				value, error := global.GlobalVariables.RedisClient.Get(input.Email).Result( )
+				value, error := globals.Variables.RedisClient.Get(input.Email).Result( )
 
 				assert.Nil(t, error)
 				assert.NotEmpty(t, value)

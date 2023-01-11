@@ -1,4 +1,4 @@
-package global
+package globals
 
 import (
 	"github.com/go-redis/redis"
@@ -6,10 +6,10 @@ import (
 	"authentication/repository"
 )
 
-type globalVariables struct {
+type variables struct {
 
 	Repository repository.Querier
 	RedisClient *redis.Client
 }
 
-var GlobalVariables= &globalVariables{ }
+var Variables= &variables{ }
