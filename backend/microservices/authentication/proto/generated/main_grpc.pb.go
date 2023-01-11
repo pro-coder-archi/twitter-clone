@@ -25,6 +25,7 @@ type AuthenticationClient interface {
 	StartRegistration(ctx context.Context, in *StartRegistrationRequest, opts ...grpc.CallOption) (*StartRegistrationResponse, error)
 	SetEmailVerified(ctx context.Context, in *SetEmailVerifiedRequest, opts ...grpc.CallOption) (*SetEmailVerifiedResponse, error)
 	Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*RegisterResponse, error)
+	Signin(ctx context.Context, in *SigninRequest, opts ...grpc.CallOption) (*SigninResponse, error)
 }
 
 type authenticationClient struct {
@@ -62,6 +63,15 @@ func (c *authenticationClient) Register(ctx context.Context, in *RegisterRequest
 	return out, nil
 }
 
+func (c *authenticationClient) Signin(ctx context.Context, in *SigninRequest, opts ...grpc.CallOption) (*SigninResponse, error) {
+	out := new(SigninResponse)
+	err := c.cc.Invoke(ctx, "/authentication.Authentication/Signin", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AuthenticationServer is the server API for Authentication service.
 // All implementations must embed UnimplementedAuthenticationServer
 // for forward compatibility
@@ -69,6 +79,7 @@ type AuthenticationServer interface {
 	StartRegistration(context.Context, *StartRegistrationRequest) (*StartRegistrationResponse, error)
 	SetEmailVerified(context.Context, *SetEmailVerifiedRequest) (*SetEmailVerifiedResponse, error)
 	Register(context.Context, *RegisterRequest) (*RegisterResponse, error)
+	Signin(context.Context, *SigninRequest) (*SigninResponse, error)
 	mustEmbedUnimplementedAuthenticationServer()
 }
 
@@ -84,6 +95,9 @@ func (UnimplementedAuthenticationServer) SetEmailVerified(context.Context, *SetE
 }
 func (UnimplementedAuthenticationServer) Register(context.Context, *RegisterRequest) (*RegisterResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Register not implemented")
+}
+func (UnimplementedAuthenticationServer) Signin(context.Context, *SigninRequest) (*SigninResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Signin not implemented")
 }
 func (UnimplementedAuthenticationServer) mustEmbedUnimplementedAuthenticationServer() {}
 
@@ -152,6 +166,24 @@ func _Authentication_Register_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Authentication_Signin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SigninRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthenticationServer).Signin(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/authentication.Authentication/Signin",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthenticationServer).Signin(ctx, req.(*SigninRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Authentication_ServiceDesc is the grpc.ServiceDesc for Authentication service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -170,6 +202,10 @@ var Authentication_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Register",
 			Handler:    _Authentication_Register_Handler,
+		},
+		{
+			MethodName: "Signin",
+			Handler:    _Authentication_Signin_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

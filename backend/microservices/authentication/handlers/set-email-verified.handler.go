@@ -3,7 +3,6 @@ package handlers
 import (
 	"encoding/json"
 	"log"
-	"shared/communications"
 
 	"authentication/global"
 	proto "authentication/proto/generated"
@@ -18,8 +17,7 @@ func SetEmailVerifiedHandler(setEmailVerifiedRequest *proto.SetEmailVerifiedRequ
 	if error != nil {
 		log.Println(error.Error( ))
 
-		communications.ReportError(error)
-		return response, nil }
+		return response, error }
 
 	//! unmarshalling and update the record
 
@@ -29,8 +27,7 @@ func SetEmailVerifiedHandler(setEmailVerifiedRequest *proto.SetEmailVerifiedRequ
 	if error != nil {
 		log.Println(error.Error( ))
 
-		communications.ReportError(error)
-		return response, nil }
+		return response, error }
 
 	temporaryUserDetails.IsVerified= true
 
@@ -39,8 +36,7 @@ func SetEmailVerifiedHandler(setEmailVerifiedRequest *proto.SetEmailVerifiedRequ
 	if error != nil {
 		log.Println(error.Error( ))
 
-		communications.ReportError(error)
-		return response, nil }
+		return response, error }
 
 	return response, nil
 }

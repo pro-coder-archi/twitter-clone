@@ -3,8 +3,12 @@ package main
 import (
 	sharedUtils "shared/utils"
 
+	"google.golang.org/grpc"
+
 	"authentication/global"
+	proto "authentication/proto/generated"
 	"authentication/repository"
+	"authentication/server"
 )
 
 func main( ) {
@@ -22,5 +26,9 @@ func main( ) {
 	defer cleanup( )
 
 	//! starting the gRPC server
-	sharedUtils.CreateGRPCServer( )
+	sharedUtils.CreateGRPCServer(
+		func(gRPCServer *grpc.Server) {
+			proto.RegisterAuthenticationServer(gRPCServer, &server.AuthenticationServer{ })
+		},
+	)
 }

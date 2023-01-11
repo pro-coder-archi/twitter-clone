@@ -24,3 +24,9 @@ func(server *AuthenticationServer) Register(
 
 	return handlers.RegisterHandler(registerRequest)
 }
+
+func(server *AuthenticationServer) Signin(
+	ctx context.Context, signinRequest *proto.SigninRequest) (*proto.SigninResponse, error) {
+
+	return handlers.SigninHandler(signinRequest)
+}

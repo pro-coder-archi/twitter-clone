@@ -5,12 +5,11 @@
 package mocks
 
 import (
+	repository "authentication/repository"
 	context "context"
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
-
-	repository "authentication/repository"
 )
 
 // MockQuerier is a mock of Querier interface.
@@ -63,4 +62,19 @@ func (m *MockQuerier) FindRegisteredEmail(ctx context.Context, email string) (re
 func (mr *MockQuerierMockRecorder) FindRegisteredEmail(ctx, email interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindRegisteredEmail", reflect.TypeOf((*MockQuerier)(nil).FindRegisteredEmail), ctx, email)
+}
+
+// GetPasswordForEmail mocks base method.
+func (m *MockQuerier) GetPasswordForEmail(ctx context.Context, email string) (string, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetPasswordForEmail", ctx, email)
+	ret0, _ := ret[0].(string)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetPasswordForEmail indicates an expected call of GetPasswordForEmail.
+func (mr *MockQuerierMockRecorder) GetPasswordForEmail(ctx, email interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetPasswordForEmail", reflect.TypeOf((*MockQuerier)(nil).GetPasswordForEmail), ctx, email)
 }

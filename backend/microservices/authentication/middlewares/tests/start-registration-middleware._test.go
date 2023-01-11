@@ -55,7 +55,7 @@ func TestStartRegistrationMiddleware(t *testing.T) {
 					EXPECT( ).
 					FindRegisteredEmail(context.Background( ), "archismanmridha12345@gmail.com").
 					Return(
-						repository.CreateUserParams{
+						repository.User{
 							Email: "archismanmridha12345@gmail.com",
 							Password: "password",
 
@@ -76,7 +76,7 @@ func TestStartRegistrationMiddleware(t *testing.T) {
 				mockQuerier.
 					EXPECT( ).
 					FindRegisteredEmail(context.Background( ), "archismanmridha12345@gmail.com").
-					Return(repository.CreateUserParams{ }, sql.ErrNoRows)
+					Return(repository.User{ }, sql.ErrNoRows)
 			},
 		},
 	}

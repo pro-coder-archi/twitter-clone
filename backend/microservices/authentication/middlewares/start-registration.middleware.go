@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"net/mail"
+	sharedErrors "shared/errors"
 
 	"authentication/global"
 	proto "authentication/proto/generated"
@@ -36,7 +37,7 @@ func StartRegistrationMiddleware(startRegistrationRequest *proto.StartRegistrati
 	// handling server or database error
 	if error == sql.ErrNoRows { return nil }
 
-	return &global.ServerError
+	return &sharedErrors.ServerError
 }
 
 var (

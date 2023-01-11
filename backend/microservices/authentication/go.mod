@@ -3,7 +3,6 @@ module authentication
 go 1.19
 
 require (
-	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/go-faker/faker/v4 v4.0.0-beta.4
 	github.com/go-redis/redis v6.15.9+incompatible
 	github.com/golang/mock v1.6.0

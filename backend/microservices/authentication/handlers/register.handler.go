@@ -2,46 +2,28 @@ package handlers
 
 import (
 	"context"
-	"encoding/json"
 	"log"
-	"shared/communications"
 
+	"authentication/communications"
 	"authentication/global"
 	proto "authentication/proto/generated"
 	"authentication/repository"
-	"authentication/types"
 )
 
 func RegisterHandler(registerRequest *proto.RegisterRequest) (*proto.RegisterResponse, error) {
 	var response *proto.RegisterResponse= nil
 
-	//! fetch the record from redis
-	value, error := global.GlobalVariables.RedisClient.Get(registerRequest.Email).Result( )
+	//! evicting the record from redis
+	_, error := global.GlobalVariables.RedisClient.Del(registerRequest.Email).Result( )
 	if error != nil {
-		log.Println(error.Error( ))
-
-		communications.ReportError(error)
-		return response, nil
-	}
-
-	//! unmarshalling the record
-
-	var temporaryUserDetails types.TemporaryUserDetailsRedisRecord
-
-	error= json.Unmarshal([]byte(value), &temporaryUserDetails)
-	if error != nil {
-		log.Println(error.Error( ))
-
-		communications.ReportError(error)
-		return response, nil
-	}
+		log.Println(error.Error( )) }
 
 	//! saving the user details permanently in cockroachDB
 
 	error= global.GlobalVariables.Repository.CreateUser(
 		context.Background( ), repository.CreateUserParams{
 
-			Email: temporaryUserDetails.Email,
+			Email: registerRequest.Email,
 			Password: registerRequest.Password,
 		},
 	)
@@ -49,9 +31,17 @@ func RegisterHandler(registerRequest *proto.RegisterRequest) (*proto.RegisterRes
 	if error != nil {
 		log.Println(error.Error( ))
 
-		communications.ReportError(error)
-		return response, nil
-	}
+		return response, error }
+
+	//! sending request to profile service to create new profile
+
+	communications.CreateProfile(
+		communications.CreateProfileEventPayload{
+
+			Email: registerRequest.Email,
+			Password: registerRequest.Password,
+		},
+	)
 
 	return response, nil
 }

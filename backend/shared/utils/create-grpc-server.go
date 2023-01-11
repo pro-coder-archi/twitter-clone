@@ -1,8 +1,6 @@
 package utils
 
 import (
-	proto "authentication/proto/generated"
-	"authentication/server"
 	"flag"
 	"fmt"
 	"log"
@@ -14,7 +12,7 @@ import (
 
 var gRPCServerPort= flag.Int("port", 4000, "Port where gRPC server will listen")
 
-func CreateGRPCServer( ) {
+func CreateGRPCServer(setupGrpcServer func(*grpc.Server)) {
 
 	//* creating a tcp listener which will listen at port 4000
 	portListener, error := net.Listen("tcp", fmt.Sprintf("localhost:%d", *gRPCServerPort))
@@ -25,10 +23,11 @@ func CreateGRPCServer( ) {
 		log.Fatalln(error.Error( )) }
 
 	//* creating the grpc server
-	gRPCServer := grpc.NewServer( )
-	proto.RegisterAuthenticationServer(gRPCServer, &server.AuthenticationServer{ })
 
+	gRPCServer := grpc.NewServer( )
 	reflection.Register(gRPCServer)
+
+	setupGrpcServer(gRPCServer)
 
 	//* starting the grpc server
 

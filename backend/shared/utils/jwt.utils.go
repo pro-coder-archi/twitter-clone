@@ -1,15 +1,16 @@
 package utils
 
 import (
+	"log"
 	"time"
 
-	"github.com/dgrijalva/jwt-go"
+	"github.com/golang-jwt/jwt/v4"
 
-	"authentication/global"
+	"shared/errors"
 )
 
 type JwtPayload struct {
-	jwt.StandardClaims
+	jwt.RegisteredClaims
 
 	Email string `json:"email"`
 }
@@ -21,16 +22,18 @@ func CreateJwt(email string) (string, *string) {
 	jwtPayload := JwtPayload{
 		Email: email,
 
-		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: time.Now( ).Add(time.Hour * 24).Unix( ),
+		RegisteredClaims: jwt.RegisteredClaims{
+			ExpiresAt: jwt.NewNumericDate(time.Now( ).Add(time.Hour * 24)),
 		},
 	}
 
-	token, error := jwt.NewWithClaims(jwt.SigningMethodES256, &jwtPayload).
+	token, error := jwt.NewWithClaims(jwt.SigningMethodHS256, &jwtPayload).
 		SignedString([]byte(jwtSigningSecert))
 
 	if error != nil {
-		return token, &global.ServerError}
+		log.Println(error.Error( ))
+
+		return token, &errors.ServerError }
 
 	return token, nil
 }
@@ -45,16 +48,18 @@ func VerifyJwt(token string) (bool, *string) {
 	_, error := jwt.ParseWithClaims(
 		token, &jwtPayload,
 			func(t *jwt.Token) (interface{ }, error) {
-				return jwtSigningSecert, nil
+				return []byte(jwtSigningSecert), nil
 			},
 	)
 
 	if error != nil {
 
 		if error == jwt.ErrSignatureInvalid {
-			verifyJwtError= "jwt expired or not found"} else {
+			verifyJwtError= "jwt expired or not found" } else {
 
-		verifyJwtError= global.ServerError}
+		log.Println(error.Error( ))
+
+		verifyJwtError= errors.ServerError }
 
 		return false, &verifyJwtError
 	}

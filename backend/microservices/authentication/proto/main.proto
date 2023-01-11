@@ -6,10 +6,13 @@ option go_package = "./authentication/proto";
 import "start-registration.proto";
 import "set-email-verified.proto";
 import "register.proto";
+import "signin.proto";
 
 service Authentication {
 
     rpc StartRegistration(StartRegistrationRequest) returns (StartRegistrationResponse) { }
     rpc SetEmailVerified(SetEmailVerifiedRequest) returns (SetEmailVerifiedResponse) { }
     rpc Register(RegisterRequest) returns (RegisterResponse) { }
+
+    rpc Signin(SigninRequest) returns (SigninResponse) { }
 }

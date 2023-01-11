@@ -13,7 +13,3 @@ type globalVariables struct {
 }
 
 var GlobalVariables= &globalVariables{ }
-
-var (
-	ServerError= "server error occured"
-)
