@@ -3,7 +3,6 @@ package utils
 import (
 	"flag"
 	"fmt"
-	"log"
 	"net"
 
 	"google.golang.org/grpc"
@@ -13,14 +12,17 @@ import (
 var gRPCServerPort= flag.Int("port", 4000, "Port where gRPC server will listen")
 
 func CreateGRPCServer(setupGrpcServer func(*grpc.Server)) {
+	const methodName= "CreateGRPCServer"
 
 	//* creating a tcp listener which will listen at port 4000
 	portListener, error := net.Listen("tcp", fmt.Sprintf("localhost:%d", *gRPCServerPort))
 
 	if error != nil {
-		log.Fatalf("❌ error listening on port %d", *gRPCServerPort)
+		Log(LogDetails{
 
-		log.Fatalln(error.Error( )) }
+			Method: methodName,
+			Message: fmt.Sprintf("❌ error listening on port %d\n%s", *gRPCServerPort, error.Error( )),
+		})}
 
 	//* creating the grpc server
 
@@ -31,7 +33,12 @@ func CreateGRPCServer(setupGrpcServer func(*grpc.Server)) {
 
 	//* starting the grpc server
 
-	log.Println("🚀 starting gRPC server for authentication microservice !")
+	Log(LogDetails{
+
+		Type: DEFAULT_LOG,
+		Method: methodName,
+		Message: "🚀 starting gRPC server for authentication microservice !",
+	})
 
 	gRPCServer.Serve(portListener)
 

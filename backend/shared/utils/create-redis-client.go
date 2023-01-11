@@ -1,7 +1,7 @@
 package utils
 
 import (
-	"log"
+	"fmt"
 
 	"github.com/alicebob/miniredis/v2"
 	"github.com/go-redis/redis"
@@ -15,6 +15,7 @@ var (
 )
 
 func CreateRedisClient(isForTesting bool) (*redis.Client, func( )) {
+	const methodName= "CreateRedisClient"
 
 	if !isForTesting {
 		uri= GetEnv("REDIS_URL"); password= GetEnv("REDIS_PASSWORD")
@@ -24,9 +25,11 @@ func CreateRedisClient(isForTesting bool) (*redis.Client, func( )) {
 
 		miniRedisServer, error= miniredis.Run( )
 		if error != nil {
-			log.Println("❌ error running mini-redis database server")
+			Log(LogDetails{
 
-			log.Println(error.Error( )) }
+				Method: methodName,
+				Message: fmt.Sprintf("❌ error running mini-redis database server : \n%s", error.Error( )),
+			})}
 
 		uri= miniRedisServer.Addr( )
 	}
@@ -41,11 +44,18 @@ func CreateRedisClient(isForTesting bool) (*redis.Client, func( )) {
 
 	_, error := redisClient.Ping( ).Result( )
 	if(error != nil) {
-		log.Fatalf("❌ error connecting to redis : ")
+		Log(LogDetails{
 
-		log.Fatalf(error.Error( )) }
+			Method: methodName,
+			Message: fmt.Sprintf("❌ error connecting to redis : \n%s", error.Error( )),
+		})}
 
-	log.Println("🔥 successfully connected to redis database")
+	Log(LogDetails{
+
+		Type: DEFAULT_LOG,
+		Method: methodName,
+		Message: "🔥 successfully connected to redis database",
+	})
 
 	return redisClient,
 

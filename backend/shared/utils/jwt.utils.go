@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"log"
 	"time"
 
 	"github.com/golang-jwt/jwt/v4"
@@ -18,6 +17,7 @@ type JwtPayload struct {
 const jwtSigningSecert= "secret"
 
 func CreateJwt(email string) (string, *string) {
+	const methodName= "CreateJwt"
 
 	jwtPayload := JwtPayload{
 		Email: email,
@@ -31,7 +31,11 @@ func CreateJwt(email string) (string, *string) {
 		SignedString([]byte(jwtSigningSecert))
 
 	if error != nil {
-		log.Println(error.Error( ))
+		Log(LogDetails{
+
+			Method: methodName,
+			Message: error,
+		})
 
 		return token, &errors.ServerError }
 
@@ -39,6 +43,7 @@ func CreateJwt(email string) (string, *string) {
 }
 
 func VerifyJwt(token string) (bool, *string) {
+	const methodName= "VerifyJwt"
 
 	var (
 		jwtPayload JwtPayload
@@ -57,7 +62,11 @@ func VerifyJwt(token string) (bool, *string) {
 		if error == jwt.ErrSignatureInvalid {
 			verifyJwtError= "jwt expired or not found" } else {
 
-		log.Println(error.Error( ))
+		Log(LogDetails{
+
+			Method: methodName,
+			Message: error,
+		})
 
 		verifyJwtError= errors.ServerError }
 

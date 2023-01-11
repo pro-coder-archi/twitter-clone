@@ -2,12 +2,13 @@ package utils
 
 import (
 	"database/sql"
-	"log"
+	"fmt"
 
 	_ "github.com/lib/pq"
 )
 
 func CreateCockroachDBConnection( ) *sql.DB {
+	const methodName= "CreateCockroachDBConnection"
 
 	uri := GetEnv("COCKROACHDB_URL")
 
@@ -15,18 +16,27 @@ func CreateCockroachDBConnection( ) *sql.DB {
 	dbConnection, error := sql.Open("postgres", uri)
 
 	if(error != nil) {
-		log.Fatalf("❌ error connecting to cockroachDB instance : ")
+		Log(LogDetails{
 
-		log.Fatalf(error.Error( )) }
+			Method: methodName,
+			Message: fmt.Sprintf("❌ error connecting to cockroachDB instance : \n%s", error.Error( )),
+		})}
 
 	error= dbConnection.Ping( )
 
 	if(error != nil) {
-		log.Fatalf("❌ error pinging cockroachDB instance : ")
+		Log(LogDetails{
 
-		log.Fatalf(error.Error( )) }
+			Message: fmt.Sprintf("❌ error pinging cockroachDB instance : \n%s", error.Error( )),
+			Method: methodName,
+		})}
 
-	log.Println("🔥 successfully connected to cockroach database")
+	Log(LogDetails{
+
+		Type: DEFAULT_LOG,
+		Method: methodName,
+		Message: "🔥 successfully connected to cockroach database",
+	})
 
 	return dbConnection
 }

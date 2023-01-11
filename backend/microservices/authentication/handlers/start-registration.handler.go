@@ -2,8 +2,8 @@ package handlers
 
 import (
 	"encoding/json"
-	"log"
 	sharedErrors "shared/errors"
+	sharedUtils "shared/utils"
 	"time"
 
 	"authentication/communications"
@@ -15,6 +15,8 @@ import (
 
 func StartRegistrationHandler(
 	startRegistrationRequest *proto.StartRegistrationRequest) (*proto.StartRegistrationResponse, error) {
+
+	const methodName= "StartRegistrationHandler"
 
 	//! request passing through middleware
 
@@ -39,7 +41,11 @@ func StartRegistrationHandler(
 
 	error= global.GlobalVariables.RedisClient.Set(startRegistrationRequest.Email, temporaryUserDetails, 600 * time.Second).Err( )
 	if error != nil {
-		log.Println(error.Error( ))
+		sharedUtils.Log(sharedUtils.LogDetails{
+
+			Message: error,
+			Method: methodName,
+		})
 
 		return &proto.StartRegistrationResponse{ Error: &sharedErrors.ServerError }, nil }
 

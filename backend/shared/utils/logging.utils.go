@@ -42,11 +42,12 @@ func Log(details LogDetails) {
 		case WARNING_LOG:
 			color.HiYellow(message)
 
-		case ERROR_LOG:
-			color.HiRed(message)
-
-		default:
+		case DEFAULT_LOG:
 			color.HiBlue(message)
+
+		//* default log type is error
+		default:
+			color.HiRed(message)
 	}
 
 	fmt.Println( )

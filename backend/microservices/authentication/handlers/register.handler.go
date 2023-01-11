@@ -3,8 +3,8 @@ package handlers
 import (
 	"context"
 	"encoding/json"
-	"log"
 	sharedErrors "shared/errors"
+	sharedUtils "shared/utils"
 
 	"authentication/communications"
 	"authentication/global"
@@ -14,11 +14,22 @@ import (
 )
 
 func RegisterHandler(registerRequest *proto.RegisterRequest) (*proto.RegisterResponse, error) {
-	var response *proto.RegisterResponse= nil
+
+	var (
+		methodName= "RegisterHandler"
+
+		response *proto.RegisterResponse= nil
+	)
+
+	//! fetching temporary user details from redis
 
 	value, error := global.GlobalVariables.RedisClient.Get(registerRequest.Email).Result( )
 	if error != nil {
-		log.Println(error.Error( ))
+		sharedUtils.Log(sharedUtils.LogDetails{
+
+			Message: error,
+			Method: methodName,
+		})
 
 		return &proto.RegisterResponse{ Error: &RegistrationTimeupError }, nil }
 
@@ -26,14 +37,22 @@ func RegisterHandler(registerRequest *proto.RegisterRequest) (*proto.RegisterRes
 
 	error= json.Unmarshal([]byte(value), &temporaryUserDetails)
 	if error != nil {
-		log.Println(error.Error( ))
+		sharedUtils.Log(sharedUtils.LogDetails{
+
+			Message: error,
+			Method: methodName,
+		})
 
 		return &proto.RegisterResponse{ Error: &sharedErrors.ServerError }, nil }
 
 	//! evicting the record from redis
 	_, error= global.GlobalVariables.RedisClient.Del(registerRequest.Email).Result( )
 	if error != nil {
-		log.Println(error.Error( )) }
+		sharedUtils.Log(sharedUtils.LogDetails{
+
+			Message: error,
+			Method: methodName,
+		})}
 
 	//! saving the user details permanently in cockroachDB
 
@@ -46,7 +65,11 @@ func RegisterHandler(registerRequest *proto.RegisterRequest) (*proto.RegisterRes
 	)
 
 	if error != nil {
-		log.Println(error.Error( ))
+		sharedUtils.Log(sharedUtils.LogDetails{
+
+			Message: error,
+			Method: methodName,
+		})
 
 		return &proto.RegisterResponse{ Error: &sharedErrors.ServerError }, nil }
 

@@ -2,7 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
-	"log"
+	sharedUtils "shared/utils"
 
 	"authentication/global"
 	proto "authentication/proto/generated"
@@ -10,12 +10,21 @@ import (
 )
 
 func SetEmailVerifiedHandler(setEmailVerifiedRequest *proto.SetEmailVerifiedRequest) (*proto.SetEmailVerifiedResponse, error) {
-	var response *proto.SetEmailVerifiedResponse= nil
+
+	var (
+		methodName= "SetEmailVerifiedHandler"
+
+		response *proto.SetEmailVerifiedResponse= nil
+	)
 
 	//! fetch the record from redis
 	value, error := global.GlobalVariables.RedisClient.Get(setEmailVerifiedRequest.Email).Result( )
 	if error != nil {
-		log.Println(error.Error( ))
+		sharedUtils.Log(sharedUtils.LogDetails{
+
+			Message: error,
+			Method: methodName,
+		})
 
 		return response, error }
 
@@ -25,7 +34,11 @@ func SetEmailVerifiedHandler(setEmailVerifiedRequest *proto.SetEmailVerifiedRequ
 
 	error= json.Unmarshal([]byte(value), &temporaryUserDetails)
 	if error != nil {
-		log.Println(error.Error( ))
+		sharedUtils.Log(sharedUtils.LogDetails{
+
+			Message: error,
+			Method: methodName,
+		})
 
 		return response, error }
 
@@ -34,7 +47,11 @@ func SetEmailVerifiedHandler(setEmailVerifiedRequest *proto.SetEmailVerifiedRequ
 	//! updating the record in redis
 	error= global.GlobalVariables.RedisClient.Set(setEmailVerifiedRequest.Email, temporaryUserDetails, -1).Err( )
 	if error != nil {
-		log.Println(error.Error( ))
+		sharedUtils.Log(sharedUtils.LogDetails{
+
+			Message: error,
+			Method: methodName,
+		})
 
 		return response, error }
 
