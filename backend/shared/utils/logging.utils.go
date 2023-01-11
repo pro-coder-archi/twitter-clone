@@ -35,7 +35,7 @@ func Log(details LogDetails) {
 		default:
 	}
 
-	log.Printf("in %s", boldYellowText.Sprint(details.Method, "( )"))
+	log.Println(boldYellowText.Sprint(details.Method, "( )"))
 
 	switch details.Type {
 
