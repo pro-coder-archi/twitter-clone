@@ -14,13 +14,11 @@ func StartRegistrationMiddleware(startRegistrationRequest *proto.StartRegistrati
 
 	//! basic validations
 
-	// email address validation
 	_, error := mail.ParseAddress(startRegistrationRequest.Email)
 
 	if error != nil {
 		return &InvalidEmailError }
 
-	// name validation
 	if len(startRegistrationRequest.Name) < 3 || len(startRegistrationRequest.Name) > 50 {
 		return &InvalidNameError }
 
@@ -30,11 +28,9 @@ func StartRegistrationMiddleware(startRegistrationRequest *proto.StartRegistrati
 		context.Background( ), startRegistrationRequest.Email,
 	)
 
-	// handling duplicate email error
 	if queryResult.Email == startRegistrationRequest.Email {
 		return &DuplicateEmailError }
 
-	// handling server or database error
 	if error == sql.ErrNoRows { return nil }
 
 	return &sharedErrors.ServerError
