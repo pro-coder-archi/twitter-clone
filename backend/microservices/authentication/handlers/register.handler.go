@@ -2,19 +2,35 @@ package handlers
 
 import (
 	"context"
+	"encoding/json"
 	"log"
 
 	"authentication/communications"
 	"authentication/global"
 	proto "authentication/proto/generated"
 	"authentication/repository"
+	"authentication/types"
 )
 
 func RegisterHandler(registerRequest *proto.RegisterRequest) (*proto.RegisterResponse, error) {
 	var response *proto.RegisterResponse= nil
 
+	value, error := global.GlobalVariables.RedisClient.Get(registerRequest.Email).Result( )
+	if error != nil {
+		log.Println(error.Error( ))
+
+		return response, error }
+
+	var temporaryUserDetails types.TemporaryUserDetailsRedisRecord
+
+	error= json.Unmarshal([]byte(value), &temporaryUserDetails)
+	if error != nil {
+		log.Println(error.Error( ))
+
+		return response, error }
+
 	//! evicting the record from redis
-	_, error := global.GlobalVariables.RedisClient.Del(registerRequest.Email).Result( )
+	_, error= global.GlobalVariables.RedisClient.Del(registerRequest.Email).Result( )
 	if error != nil {
 		log.Println(error.Error( )) }
 
@@ -38,6 +54,7 @@ func RegisterHandler(registerRequest *proto.RegisterRequest) (*proto.RegisterRes
 	communications.CreateProfile(
 		communications.CreateProfileEventPayload{
 
+			Name: temporaryUserDetails.Name,
 			Email: registerRequest.Email,
 			Password: registerRequest.Password,
 		},
