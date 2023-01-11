@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"log"
+	sharedErrors "shared/errors"
 
 	"authentication/communications"
 	"authentication/global"
@@ -19,7 +20,7 @@ func RegisterHandler(registerRequest *proto.RegisterRequest) (*proto.RegisterRes
 	if error != nil {
 		log.Println(error.Error( ))
 
-		return response, error }
+		return &proto.RegisterResponse{ Error: &RegistrationTimeupError }, nil }
 
 	var temporaryUserDetails types.TemporaryUserDetailsRedisRecord
 
@@ -27,7 +28,7 @@ func RegisterHandler(registerRequest *proto.RegisterRequest) (*proto.RegisterRes
 	if error != nil {
 		log.Println(error.Error( ))
 
-		return response, error }
+		return &proto.RegisterResponse{ Error: &sharedErrors.ServerError }, nil }
 
 	//! evicting the record from redis
 	_, error= global.GlobalVariables.RedisClient.Del(registerRequest.Email).Result( )
@@ -47,7 +48,7 @@ func RegisterHandler(registerRequest *proto.RegisterRequest) (*proto.RegisterRes
 	if error != nil {
 		log.Println(error.Error( ))
 
-		return response, error }
+		return &proto.RegisterResponse{ Error: &sharedErrors.ServerError }, nil }
 
 	//! sending request to profile service to create new profile
 
@@ -62,3 +63,7 @@ func RegisterHandler(registerRequest *proto.RegisterRequest) (*proto.RegisterRes
 
 	return response, nil
 }
+
+var (
+	RegistrationTimeupError= "please restart the registration process"
+)

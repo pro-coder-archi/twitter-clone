@@ -37,7 +37,7 @@ func StartRegistrationHandler(
 	if error != nil {
 		return &proto.StartRegistrationResponse{ Error: &sharedErrors.ServerError }, nil }
 
-	error= global.GlobalVariables.RedisClient.Set(startRegistrationRequest.Email, temporaryUserDetails, 300 * time.Second).Err( )
+	error= global.GlobalVariables.RedisClient.Set(startRegistrationRequest.Email, temporaryUserDetails, 600 * time.Second).Err( )
 	if error != nil {
 		log.Println(error.Error( ))
 

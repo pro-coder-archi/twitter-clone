@@ -18,8 +18,6 @@ func TestRegisterHandler(t *testing.T) {
 
 	var randomEmail= faker.Email( )
 
-	CreateTemporaryUserDetailsRedisRecord(t, randomEmail)
-
 	//! defining testcases
 
 	type TestCase struct {
@@ -32,6 +30,14 @@ func TestRegisterHandler(t *testing.T) {
 
 	testcases := []TestCase {
 		{
+			description: "🧪 registration should be denied if time limit exceeded for the process",
+			input: &proto.RegisterRequest{
+				Email: randomEmail,
+				Password: "password",
+			},
+			expectedOutput: &proto.RegisterResponse{ Error: &handlers.RegistrationTimeupError },
+		},
+		{
 			description: "🧪 user should be registered successfully",
 			input: &proto.RegisterRequest{
 				Email: randomEmail,
@@ -40,6 +46,8 @@ func TestRegisterHandler(t *testing.T) {
 			expectedOutput: nil,
 
 			buildStub: func( ) {
+				CreateTemporaryUserDetailsRedisRecord(t, randomEmail)
+
 				mockQuerier.
 					EXPECT( ).
 					CreateUser(context.Background( ), repository.CreateUserParams{
@@ -58,6 +66,9 @@ func TestRegisterHandler(t *testing.T) {
 
 		t.Run(
 			testcase.description, func(t *testing.T) {
+
+				if testcase.buildStub != nil {
+					testcase.buildStub( ) }
 
 				output, error := handlers.RegisterHandler(testcase.input)
 				assert.Nil(t, error)

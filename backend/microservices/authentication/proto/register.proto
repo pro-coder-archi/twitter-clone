@@ -17,4 +17,7 @@ message RegisterRequest {
     string password= 2;
 }
 
-message RegisterResponse { }
+message RegisterResponse {
+
+    optional string error= 1;
+}
