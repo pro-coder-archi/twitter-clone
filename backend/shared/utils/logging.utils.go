@@ -8,9 +8,9 @@ import (
 )
 
 const (
-	DEFAULT_LOG= iota
-	WARNING_LOG= iota
 	ERROR_LOG= iota
+	WARNING_LOG= iota
+	DEFAULT_LOG= iota
 )
 
 type LogDetails struct {
