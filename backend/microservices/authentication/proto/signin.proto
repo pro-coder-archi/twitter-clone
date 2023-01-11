@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package authentication;
+option go_package = "./authentication/proto";
+
+message SigninRequest {
+
+    string email = 1;
+    string password= 2;
+}
+
+message SigninResponse {
+
+    string jwt= 1;
+    optional string error= 2;
+}

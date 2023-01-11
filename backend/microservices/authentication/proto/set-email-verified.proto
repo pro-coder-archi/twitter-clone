@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package authentication;
+option go_package = "./authentication/proto";
+
+message SetEmailVerifiedRequest {
+
+    string email = 1;
+}
+
+message SetEmailVerifiedResponse { }

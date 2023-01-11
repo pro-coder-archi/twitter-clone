@@ -1,0 +1,13 @@
+# Terraform
+.terraform
+terraform.tfstate
+
+# Credentials and Kubernetes secrets
+*.credentials.env
+*.secret.yaml
+
+# VSCode settings
+.vscode
+
+# DevSpace
+.devspace

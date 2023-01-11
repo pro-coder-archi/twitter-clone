@@ -1,0 +1,11 @@
+version: "2"
+
+sql:
+    - engine: postgresql
+      queries: ./backend/microservices/authentication/sql/queries.sql
+      schema: ./backend/microservices/authentication/sql/schema.sql
+      gen:
+        go:
+            package: repository
+            out: ./backend/microservices/authentication/repository
+            emit_interface: true

@@ -1,0 +1,22 @@
+apiVersion: k3d.io/v1alpha3
+kind: Simple
+
+name: twitter-clone-cluster
+
+servers: 1
+agents: 2
+
+ports:
+    - port: 8080:80
+      nodeFilters:
+        - loadbalancer
+    - port: 8443:443
+      nodeFilters:
+        - loadbalancer
+
+options:
+    k3s:
+        extraArgs:
+            - arg: --no-deploy=traefik
+              nodeFilters:
+                - server:*

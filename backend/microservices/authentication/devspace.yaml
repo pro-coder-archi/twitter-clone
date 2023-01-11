@@ -1,0 +1,49 @@
+version: v2beta1
+name: authentication-microservice
+
+pipelines:
+    #* this is the pipeline for the main command: `devspace dev` (or `devspace run-pipeline dev`)
+    dev:
+        run: |-
+            run_dependencies --all
+            create_deployments --all
+            start_dev authentication-microservice
+
+images:
+    authentication-microservice:
+        image: archismanmridha/twitter-clone-authentication-microservice
+        dockerfile: ../../../dockerfiles/authentication.microservice.dockerfile
+        context: ../../../
+
+deployments:
+    authentication-microservice:
+        kubectl:
+            manifests:
+                - ../../../kubernetes/applications/authentication/overlays/development
+            kustomize: true
+
+# this is a list of `dev` containers that are based on the containers created by your deployments
+dev:
+    authentication-microservice:
+        # search for the container that runs this image
+        imageSelector: archismanmridha/twitter-clone-authentication-microservice
+        # replace the container image with this dev-optimized image (allows to skip image building during development)
+        devImage: ghcr.io/loft-sh/devspace-containers/go:1.18-alpine
+        # sync files between the local filesystem and the development container
+        sync:
+            - path: ./:./backend/microservices/authentication
+            - path: ../../shared/:./backend/shared
+            - path: ../../../go.work:./go.work
+              file: true
+        # open a terminal and use the following command to start it
+        terminal:
+            command: ./backend/microservices/authentication/devspace_start.sh
+        # inject a lightweight SSH server into the container (so your IDE can connect to the remote dev env)
+        ssh:
+            enabled: true
+        # make the following commands from my local machine available inside the dev container
+        proxyCommands:
+            - command: kubectl
+        # forward the following ports to be able access your application via localhost
+        ports:
+            - port: 4001:4000
